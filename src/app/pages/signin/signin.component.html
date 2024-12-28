@@ -1,0 +1,35 @@
+<app-login title="Entrar" buttonText="Entrar" [formGroup]="signinForm" (submit)="onSubmit()">
+    <div class="form-outline mb-4">
+        <label class="form-label" for="username">Usuário</label>
+        <input type="text" name="username" class="form-control" formControlName="username" [ngClass]="{ 'is-invalid': formService.isInvalid(username!) }" required />
+
+        @if (formService.isInvalid(username!)) {
+        <div class="invalid-feedback">
+            Campo obrigatório.
+        </div>
+        }
+
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="password">Senha</label>
+        <input type="password" name="password" class="form-control" formControlName="password" required [ngClass]="{ 'is-invalid': formService.isInvalid(password!) }" />
+
+        @if (formService.isInvalid(password!)) {
+        <div class="invalid-feedback">
+            Campo obrigatório.
+        </div>
+        }
+
+    </div>
+
+    @if (loginFailed) {
+    <div class="invalid-feedback d-block mb-2">
+        Usuário ou senha incorretos.
+    </div>
+    }
+
+    <div>
+        <p>Não tem uma conta? <a routerLink="/signup">Cadastre-se</a></p>
+    </div>
+</app-login>

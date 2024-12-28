@@ -1,0 +1,53 @@
+<app-login title="Cadastro" buttonText="Cadastrar-se" [formGroup]="signupForm" (submit)="onSubmit()">
+    <div class="form-outline mb-4">
+        <label class="form-label" for="username">Usuário</label>
+        <input type="text" name="username" class="form-control" formControlName="username" [ngClass]="{ 'is-invalid': formService.isInvalid(username!), 'is-valid': formService.isValid(username!) }" required />
+
+        @if (formService.isInvalid(username!)) {
+        <div class="invalid-feedback">
+            @if (username?.hasError("minlength")) {
+            Mínimo de 5 caracteres.
+            } @else {
+            Campo obrigatório.
+            }
+        </div>
+        }
+
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="password">Senha</label>
+        <input type="password" name="password" class="form-control" formControlName="password" [ngClass]="{ 'is-invalid': formService.isInvalid(password!), 'is-valid': formService.isValid(password!) }" required />
+
+        @if (formService.isInvalid(password!)) {
+        <div class="invalid-feedback">
+            @if (password?.hasError("minlength")) {
+            Mínimo de 5 caracteres.
+            } @else {
+            Campo obrigatório.
+            }
+        </div>
+        }
+
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="confirmPassword">Confirmar senha</label>
+        <input type="password" name="confirmPassword" class="form-control" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': formService.isInvalid(confirmPassword!), 'is-valid': formService.isValid(confirmPassword!) }" required />
+
+        @if (formService.isInvalid(confirmPassword!)) {
+        <div class="invalid-feedback">
+            @if (confirmPassword?.hasError("mismatch")) {
+            Senhas não coincidem.
+            } @else {
+            Campo obrigatório.
+            }
+        </div>
+        }
+
+    </div>
+
+    <div>
+        <p>Já tem uma conta? <a routerLink="/login">Entrar</a></p>
+    </div>
+</app-login>
