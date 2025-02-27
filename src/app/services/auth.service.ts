@@ -26,29 +26,34 @@ export class AuthService {
   async login(body: any): Promise<boolean> {
     this.removeToken();
 
-    try {
-      await lastValueFrom(this.http.post(this.apiUrl + this.endpointLogin, JSON.stringify(body)).pipe(
-        map((res: any) => this.setToken(res.token))
-      ));
-      return true;
-    } catch {
-      return false;
-    }
+    return true;
+
+    // try {
+    //   await lastValueFrom(this.http.post(this.apiUrl + this.endpointLogin, JSON.stringify(body)).pipe(
+    //     map((res: any) => this.setToken(res.token))
+    //   ));
+    //   return true;
+    // } catch {
+    //   return false;
+    // }
   }
 
   async isAuthenticated(): Promise<boolean> {
-    const token: string | null = this.getToken();
 
-    if (token) {
-      try {
-        await lastValueFrom(this.http.get(this.apiUrl + "pacientes"));
-        return true;
-      } catch {
-        return false;
-      }
-    }
+    return true;
 
-    return false;
+  //   const token: string | null = this.getToken();
+
+  //   if (token) {
+  //     try {
+  //       await lastValueFrom(this.http.get(this.apiUrl + "pacientes"));
+  //       return true;
+  //     } catch {
+  //       return false;
+  //     }
+  //   }
+
+  //   return false;
   }
 
 }
