@@ -5,6 +5,7 @@ import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { authGuard } from './guards/auth.guard';
 import { ProductsComponent } from './pages/products/products.component';
+import { PdvComponent } from './pages/pdv/pdv.component';
 
 export const routes: Routes = [
     {
@@ -33,7 +34,11 @@ export const routes: Routes = [
             {
                 path: "products",
                 component: ProductsComponent,
-            }
+            },
+            {
+                path: "pdv",
+                component: PdvComponent,
+            },
         ]
     },
     {
