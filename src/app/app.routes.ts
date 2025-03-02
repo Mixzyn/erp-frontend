@@ -4,8 +4,9 @@ import { LayoutComponent } from './layout/layout/layout.component';
 import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { authGuard } from './guards/auth.guard';
-import { ProductsComponent } from './pages/products/products.component';
 import { PdvComponent } from './pages/pdv/pdv.component';
+import { ListProductsComponent } from './pages/products/list-products/list-products.component';
+import { AddProductComponent } from './pages/products/add-product/add-product.component';
 
 export const routes: Routes = [
     {
@@ -18,7 +19,7 @@ export const routes: Routes = [
         component: SigninComponent
     },
     {
-        path: "signup",
+        path: "cadastrar",
         component: SignupComponent
     },
     {
@@ -32,8 +33,12 @@ export const routes: Routes = [
                 component: HomeComponent,
             },
             {
-                path: "products",
-                component: ProductsComponent,
+                path: "listar-produtos",
+                component: ListProductsComponent,
+            },
+            {
+                path: "cadastrar-produto",
+                component: AddProductComponent,
             },
             {
                 path: "pdv",

@@ -15,5 +15,4 @@ export class LoginComponent {
   emitSubmit() {
     this.submit.emit();
   }
-
 }
