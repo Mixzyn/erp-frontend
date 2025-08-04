@@ -1,7 +1,7 @@
 <app-form title="Cadastrar Produto" buttonText="Cadastrar" [formGroup]="addProductForm" (submit)="onSubmit()">
     <div class="form-outline mb-4">
-        <label class="form-label" for="name">Nome</label>
-        <input type="text" name="name" class="form-control" formControlName="name" required />
+        <label class="form-label" for="description">Nome</label>
+        <input type="text" name="description" class="form-control" formControlName="description" required />
 
         <!-- @if (formService.isInvalid(username!)) {
         <div class="invalid-feedback">
@@ -17,18 +17,13 @@
     </div>
 
     <div class="form-outline mb-4">
-        <label class="form-label" for="category">Categoria</label>
-        <input type="text" name="category" class="form-control" formControlName="category" required />
-    </div>
-
-    <div class="form-outline mb-4">
         <label class="form-label" for="price">Preço</label>
         <input type="text" name="price" class="form-control" formControlName="price" required />
     </div>
 
-    <div class="form-outline mb-4">
-        <label class="form-label" for="manufacturer">Fabricante</label>
-        <input type="text" name="manufacturer" class="form-control" formControlName="manufacturer" required />
+    @if (addProductFailed) {
+    <div class="invalid-feedback d-block mb-2">
+        Erro ao cadastrar produto.
     </div>
-
+    }
 </app-form>

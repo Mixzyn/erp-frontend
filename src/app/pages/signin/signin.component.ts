@@ -27,7 +27,7 @@ export class SigninComponent {
   get password() { return this.signinForm.get('password'); }
 
   async onSubmit() {
-    const login = await this.authService.login({ login: this.username!.value, password: this.password!.value });
+    const login = await this.authService.login({ username: this.username!.value, password: this.password!.value });
 
     if (login) {
       this.router.navigateByUrl("home");

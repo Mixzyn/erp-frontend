@@ -8,7 +8,7 @@ import { lastValueFrom, map } from 'rxjs';
 export class AuthService {
   private http = inject(HttpClient);
   private readonly apiUrl = "http://localhost:8080/"
-  private readonly endpointLogin = "auth/login"
+  private readonly endpointLogin = "login"
   private readonly TOKEN_KEY = "authToken";
 
   setToken(token: string): void {
@@ -26,34 +26,34 @@ export class AuthService {
   async login(body: any): Promise<boolean> {
     this.removeToken();
 
-    return true;
+    // return true;
 
-    // try {
-    //   await lastValueFrom(this.http.post(this.apiUrl + this.endpointLogin, JSON.stringify(body)).pipe(
-    //     map((res: any) => this.setToken(res.token))
-    //   ));
-    //   return true;
-    // } catch {
-    //   return false;
-    // }
+    try {
+      await lastValueFrom(this.http.post(this.apiUrl + this.endpointLogin, JSON.stringify(body)).pipe(
+        map((res: any) => this.setToken(res.accessToken))
+      ));
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   async isAuthenticated(): Promise<boolean> {
 
-    return true;
+    // return true;
 
-  //   const token: string | null = this.getToken();
+    const token: string | null = this.getToken();
 
-  //   if (token) {
-  //     try {
-  //       await lastValueFrom(this.http.get(this.apiUrl + "pacientes"));
-  //       return true;
-  //     } catch {
-  //       return false;
-  //     }
-  //   }
+    if (token) {
+      try {
+        await lastValueFrom(this.http.get(this.apiUrl + "verify-auth"));
+        return true;
+      } catch {
+        return false;
+      }
+    }
 
-  //   return false;
+    return false;
   }
 
 }
