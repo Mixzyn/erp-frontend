@@ -12,30 +12,20 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Código</th>
                     <th scope="col">Descrição</th>
-                    <th scope="col">Preco</th>
+                    <th scope="col">Código</th>
+                    <th scope="col">Preço</th>
                 </tr>
             </thead>
             <tbody role="button">
-                <tr>
-                    <th scope="row">1</th>
-                    <td>2365424587956</td>
-                    <td>Coca</td>
-                    <td>R$ 10</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>2365424587956</td>
-                    <td>Pepsi</td>
-                    <td>R$ 10</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>2365424587956</td>
-                    <td>Guarana</td>
-                    <td>R$ 10</td>
-                </tr>
+                @for (product of products; track product.id) {
+                    <tr>
+                        <th scope="row">{{ product.id }}</th>
+                        <td>{{ product.descricao }}</td>
+                        <td>{{ product.codigo }}</td>
+                        <td>R$ {{ product.precoUnitario }}</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

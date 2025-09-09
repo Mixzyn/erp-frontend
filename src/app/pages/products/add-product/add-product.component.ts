@@ -29,7 +29,7 @@ export class AddProductComponent {
     const addProduct = await this.productService.addProduct({ descricao: this.description!.value, codigo: this.code!.value, precoUnitario: this.price!.value });
 
     if (addProduct) {
-      this.router.navigateByUrl("home");
+      this.router.navigateByUrl("listar-produtos");
       return;
     }
 

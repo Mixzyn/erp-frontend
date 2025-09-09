@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
+import { Product } from '../models/product';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +20,9 @@ export class ProductService {
     } catch {
       return false;
     }
+  }
+
+  getProducts() {
+    return this.http.get<Product[]>(this.apiUrl + this.endpoint);
   }
 }
