@@ -7,6 +7,8 @@ import { authGuard } from './guards/auth.guard';
 import { PdvComponent } from './pages/pdv/pdv.component';
 import { ListProductsComponent } from './pages/products/list-products/list-products.component';
 import { AddProductComponent } from './pages/products/add-product/add-product.component';
+import { SingleProductComponent } from './pages/products/single-product/single-product.component';
+import { productResolver } from './guards/product.resolver';
 
 export const routes: Routes = [
     {
@@ -43,6 +45,13 @@ export const routes: Routes = [
             {
                 path: "pdv",
                 component: PdvComponent,
+            },
+            {
+                path: "produto/:id",
+                component: SingleProductComponent,
+                resolve: {
+                    product: productResolver,
+                },
             },
         ]
     },

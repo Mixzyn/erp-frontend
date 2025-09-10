@@ -19,7 +19,7 @@
             </thead>
             <tbody role="button">
                 @for (product of products; track product.id) {
-                    <tr>
+                    <tr routerLink="/produto/{{ product.id }}">
                         <th scope="row">{{ product.id }}</th>
                         <td>{{ product.descricao }}</td>
                         <td>{{ product.codigo }}</td>

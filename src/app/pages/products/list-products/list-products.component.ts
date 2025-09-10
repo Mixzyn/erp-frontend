@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, output } from '@angular/core';
 import { Product } from '../../../models/product';
-import { Observable } from 'rxjs';
 import { ProductService } from '../../../services/product.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-list-products',
@@ -11,7 +10,7 @@ import { ProductService } from '../../../services/product.service';
   styleUrl: './list-products.component.css'
 })
 export class ListProductsComponent {
-  productService = inject(ProductService);
+  private productService = inject(ProductService);
   products: Product[] = [];
 
   constructor() {

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { Product } from '../models/product';
 
 @Injectable({
@@ -22,7 +22,11 @@ export class ProductService {
     }
   }
 
-  getProducts() {
+  getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl + this.endpoint);
+  }
+
+  getProduct(productId: String): Observable<Product> {
+    return this.http.get<Product>(this.apiUrl + this.endpoint + "/" + productId);
   }
 }
