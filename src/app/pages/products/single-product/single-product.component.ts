@@ -1,7 +1,5 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Product } from '../../../models/product';
-import { ActivatedRoute } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-single-product',
@@ -10,7 +8,5 @@ import { toSignal } from '@angular/core/rxjs-interop';
   styleUrl: './single-product.component.css'
 })
 export class SingleProductComponent {
-  private route = inject(ActivatedRoute);
-  private data = toSignal(this.route.data);
-  product = computed(() => this.data().product as Product);
+  product = input.required<Product>();
 }
