@@ -1,5 +1,22 @@
-<section id="product info" class="py-5">
-    <div class="container text-center">
-        <h2>{{ product().descricao }}</h2>
+<app-form title="Produto" imgSrc="img/products/sem-imagem.jpg" buttonText="Editar" [formGroup]="editProductForm" (submit)="onSubmit()">
+    <div class="form-outline mb-4">
+        <label class="form-label" for="description">Nome</label>
+        <input type="text" name="description" class="form-control" formControlName="description" required />
     </div>
-</section>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="code">Código</label>
+        <input type="text" name="code" class="form-control" formControlName="code" required />
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="price">Preço</label>
+        <input type="text" name="price" class="form-control" formControlName="price" required />
+    </div>
+
+    @if (editProductFailed) {
+    <div class="invalid-feedback d-block mb-2">
+        Erro ao editar produto.
+    </div>
+    }
+</app-form>

@@ -29,6 +29,7 @@ export const routes: Routes = [
         component: LayoutComponent,
         pathMatch: "prefix",
         canActivate: [authGuard],
+        canActivateChild: [authGuard],
         children: [
             {
                 path: "home",

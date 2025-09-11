@@ -8,6 +8,8 @@ import { Component, input, output } from '@angular/core';
 })
 export class FormComponent {
   title = input<string>();
+  imgSrc = input<string>();
+  imgAlt = input<string>();
   buttonText = input<string>();
   submit = output<void>();
 
