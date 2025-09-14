@@ -3,4 +3,5 @@ export interface Product {
     descricao: string;
     codigo: string;
     precoUnitario: Number;
+    imagePath: string
 }

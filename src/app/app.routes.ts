@@ -36,7 +36,7 @@ export const routes: Routes = [
                 component: HomeComponent,
             },
             {
-                path: "listar-produtos",
+                path: "produtos",
                 component: ListProductsComponent,
             },
             {

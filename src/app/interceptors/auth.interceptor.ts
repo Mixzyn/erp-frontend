@@ -5,23 +5,17 @@ import { AuthService } from '../services/auth.service';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const authToken = authService.getToken();
+  let headers = req.headers;
 
   if (authToken) {
-    const cloneReq = req.clone({
-      setHeaders: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${authToken}`
-      }
-    });
-    
-    return next(cloneReq);
+    headers = headers.set('Authorization', `Bearer ${authToken}`)
   }
 
-  const cloneReq = req.clone({
-    setHeaders: {
-      "Content-Type": "application/json",
-    }
-  });
+  if (!(req.body instanceof FormData)) {
+    headers = headers.set('Content-Type', 'application/json');
+  }
+
+  const cloneReq = req.clone({ headers });
 
   return next(cloneReq);
 };

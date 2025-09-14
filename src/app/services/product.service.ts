@@ -12,9 +12,19 @@ export class ProductService {
   private readonly endpoint = "produtos"
 
   async addProduct(product: any): Promise<boolean> {
+    const formData = new FormData();
+
+    if (product.imagePath) {
+      formData.append('imagePath', product.imagePath);
+    }
+
+    formData.append('descricao', product.descricao);
+    formData.append('codigo', product.codigo);
+    formData.append('precoUnitario', product.precoUnitario.toString());
+
     try {
       await lastValueFrom(
-        this.http.post(this.apiUrl + this.endpoint, JSON.stringify(product))
+        this.http.post(this.apiUrl + this.endpoint, formData)
       );
       return true;
     } catch {
@@ -26,7 +36,11 @@ export class ProductService {
     return this.http.get<Product[]>(this.apiUrl + this.endpoint);
   }
 
-  getProduct(productId: String): Observable<Product> {
+  getProduct(productId: string): Observable<Product> {
     return this.http.get<Product>(this.apiUrl + this.endpoint + "/" + productId);
+  }
+
+  getProductImage(imagePath: string) {
+    return this.apiUrl + imagePath;
   }
 }

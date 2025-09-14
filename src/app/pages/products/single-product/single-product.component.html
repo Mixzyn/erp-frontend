@@ -1,6 +1,6 @@
-<app-form title="Produto" imgSrc="img/products/sem-imagem.jpg" buttonText="Editar" [formGroup]="editProductForm" (submit)="onSubmit()">
+<app-form title="Produto" [imgSrc]="imagePreview" buttonText="Editar" [formGroup]="editProductForm" (submit)="onSubmit()">
     <div class="form-outline mb-4">
-        <label class="form-label" for="description">Nome</label>
+        <label class="form-label" for="description">Descrição</label>
         <input type="text" name="description" class="form-control" formControlName="description" required />
     </div>
 
@@ -12,6 +12,11 @@
     <div class="form-outline mb-4">
         <label class="form-label" for="price">Preço</label>
         <input type="text" name="price" class="form-control" formControlName="price" required />
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="namePath">Trocar Imagem</label>
+        <input type="file" name="imagePath" class="form-control" (change)="onFileSelected($event)" />
     </div>
 
     @if (editProductFailed) {
