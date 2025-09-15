@@ -42,7 +42,9 @@ export class SingleProductComponent {
       imagePath: [product.imagePath]
     });
 
-    this.imagePreview = this.productService.getProductImage(this.imagePath?.value);
+    if (product.imagePath) {
+      this.imagePreview = this.productService.getProductImage(this.imagePath?.value);
+    }
   }
 
   onFileSelected(event: Event) {

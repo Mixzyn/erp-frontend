@@ -1,13 +1,11 @@
-<section id="actions" class="pt-5">
-    <div class="container">
-        <button type="button" class="btn btn-primary mb-4" style="--bs-btn-padding-x: 1.8rem;" routerLink="/cadastrar-produto">
+<div class="container">
+    <section id="actions" class="pt-5">
+        <button type="button" class="btn btn-success mb-4" routerLink="/cadastrar-produto">
             Cadastrar Produto
         </button>
-    </div>
-</section>
+    </section>
 
-<section id="products list" class="py-5">
-    <div class="container">
+    <section id="products list">
         <table class="table table-hover table-bordered">
             <thead>
                 <tr>
@@ -15,18 +13,51 @@
                     <th scope="col">Descrição</th>
                     <th scope="col">Código</th>
                     <th scope="col">Preço</th>
+                    <th scope="col">Comandos</th>
                 </tr>
             </thead>
-            <tbody role="button">
+            <tbody>
                 @for (product of products; track product.id) {
-                    <tr routerLink="/produto/{{ product.id }}">
-                        <th scope="row">{{ product.id }}</th>
-                        <td>{{ product.descricao }}</td>
-                        <td>{{ product.codigo }}</td>
-                        <td>R$ {{ product.precoUnitario }}</td>
-                    </tr>
+                <tr>
+                    <th scope="row">{{ product.id }}</th>
+                    <td>{{ product.descricao }}</td>
+                    <td>{{ product.codigo }}</td>
+                    <td>R$ {{ product.precoUnitario }}</td>
+                    <td>
+                        <span class="edit-icon" role="button" routerLink="/produto/{{ product.id }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="#0d6efd">
+                                <path d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2ZM10.95 17.51C10.66 17.8 10.11 18.08 9.71 18.14L7.25 18.49C7.16 18.5 7.07 18.51 6.98 18.51C6.57 18.51 6.19 18.37 5.92 18.1C5.59 17.77 5.45 17.29 5.53 16.76L5.88 14.3C5.94 13.89 6.21 13.35 6.51 13.06L10.97 8.6C11.05 8.81 11.13 9.02 11.24 9.26C11.34 9.47 11.45 9.69 11.57 9.89C11.67 10.06 11.78 10.22 11.87 10.34C11.98 10.51 12.11 10.67 12.19 10.76C12.24 10.83 12.28 10.88 12.3 10.9C12.55 11.2 12.84 11.48 13.09 11.69C13.16 11.76 13.2 11.8 13.22 11.81C13.37 11.93 13.52 12.05 13.65 12.14C13.81 12.26 13.97 12.37 14.14 12.46C14.34 12.58 14.56 12.69 14.78 12.8C15.01 12.9 15.22 12.99 15.43 13.06L10.95 17.51ZM17.37 11.09L16.45 12.02C16.39 12.08 16.31 12.11 16.23 12.11C16.2 12.11 16.16 12.11 16.14 12.1C14.11 11.52 12.49 9.9 11.91 7.87C11.88 7.76 11.91 7.64 11.99 7.57L12.92 6.64C14.44 5.12 15.89 5.15 17.38 6.64C18.14 7.4 18.51 8.13 18.51 8.89C18.5 9.61 18.13 10.33 17.37 11.09Z" />
+                            </svg>
+                        </span>
+
+                        <span role="button" (click)="pressDeleteIcon(product.id)" data-bs-toggle="modal" data-bs-target="#deleteProductModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="#dc3545">
+                                <path d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2ZM15.76 15.76C15.7 16.61 15.63 17.67 13.71 17.67H10.29C8.38 17.67 8.3 16.61 8.24 15.76L7.93 11.8C7.91 11.54 8 11.29 8.17 11.1C8.34 10.91 8.59 10.81 8.84 10.81H15.16C15.41 10.81 15.66 10.92 15.83 11.1C16 11.29 16.09 11.54 16.07 11.79L15.76 15.76ZM16.8 9.82C16.78 9.82 16.76 9.82 16.74 9.82C15.7 9.72 14.75 9.65 13.84 9.61C12.62 9.55 11.4 9.53 10.17 9.58C9.57 9.61 8.96 9.65 8.36 9.71L7.27 9.82C7.25 9.82 7.22 9.82 7.2 9.82C6.85 9.82 6.55 9.56 6.52 9.2C6.48 8.83 6.76 8.49 7.13 8.46L8.22 8.35C8.65 8.31 9.07 8.28 9.5 8.26L9.58 7.79C9.66 7.29 9.81 6.33 11.31 6.33H12.7C14.21 6.33 14.36 7.32 14.43 7.8L14.51 8.28C15.26 8.32 16.03 8.38 16.87 8.46C17.25 8.5 17.52 8.83 17.49 9.21C17.45 9.56 17.15 9.82 16.8 9.82Z" />
+                            </svg>
+                        </span>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
+    </section>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteProductModalLabel">Excluir Produto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que você deseja excluir esse produto?<br>Obs.: O produto só pode ser excluido se não estiver cadastrado em nenhuma venda.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteProduct()">Excluir</button>
+            </div>
+        </div>
     </div>
-</section>
+</div>

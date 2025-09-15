@@ -1,6 +1,7 @@
 <div class="bg-light h-100">
-    <div class="container d-flex flex-column justify-content-center h-100">
-        <div class="card border-0 shadow col-9 align-self-center">
+    <div class="container py-5">
+        <button type="submit" class="btn btn-secondary mb-3" routerLink="/produtos">Voltar aos produtos</button>
+        <div class="card border-0 shadow mx-auto">
             <div class="card-header px-md-4 py-3 bg-primary text-white">
                 <h1 class="cart-title h4 mb-0">{{ title() }}</h1>
             </div>
@@ -12,7 +13,7 @@
                     <div class="col">
                         <form (ngSubmit)="emitSubmit()" class="d-flex flex-column">
                             <ng-content></ng-content>
-                            <button type="submit" class="btn btn-primary mb-4" style="--bs-btn-padding-x: 1.8rem;">
+                            <button type="submit" class="btn btn-primary mb-4">
                                 {{ buttonText() }}
                             </button>
                         </form>

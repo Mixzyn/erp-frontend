@@ -1,7 +1,7 @@
 export interface Product {
-    id: Number;
+    id: number;
     descricao: string;
     codigo: string;
-    precoUnitario: Number;
+    precoUnitario: number;
     imagePath: string
 }

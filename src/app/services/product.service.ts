@@ -43,4 +43,8 @@ export class ProductService {
   getProductImage(imagePath: string) {
     return this.apiUrl + imagePath;
   }
+
+  deleteProduct(productId: number): Observable<void> {
+    return this.http.delete<void>(this.apiUrl + this.endpoint + "/" + productId);
+  }
 }
