@@ -20,7 +20,6 @@ export class SingleProductComponent {
   imagePreview: string = "img/products/sem-imagem.jpg";
   editProductFailed: boolean = false;
 
-
   constructor(private fb: FormBuilder) { }
 
   get description() { return this.editProductForm.get('description') }

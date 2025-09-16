@@ -1,5 +1,5 @@
 export interface Product {
-    id: number;
+    id: number | null;
     descricao: string;
     codigo: string;
     precoUnitario: number;

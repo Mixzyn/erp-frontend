@@ -3,7 +3,7 @@
         <div class="col py-5">
             <div class="row">
                 <div class="col">
-                    <img src="img/products/sem-imagem.jpg" alt="Coca lata" class="img-fluid">
+                    <img [src]="imagePreview" alt="Coca lata" class="img-fluid">
                 </div>
                 <div class="col">
                     <section id="product info">
@@ -12,7 +12,9 @@
                                 CÓDIGO DE BARRAS
                             </div>
                             <div class="card-body text-end fw-bold">
-                                <span>R$ 100,00</span>
+                                <div class="form-outline">
+                                    <input  #inputCodigo [(ngModel)]="codigo" type="text" name="codigo" class="form-control" required />
+                                </div>
                             </div>
                         </div>
                         <div class="card fs-5 mb-4">
@@ -20,7 +22,7 @@
                                 VALOR UNITÁRIO
                             </div>
                             <div class="card-body text-end fw-bold">
-                                <span>R$ 100,00</span>
+                                <span>R$ {{ valorUnitario }}</span>
                             </div>
                         </div>
                         <div class="card fs-5 mb-4">
@@ -28,7 +30,9 @@
                                 QUANTIDADE
                             </div>
                             <div class="card-body text-end fw-bold">
-                                <span>2</span>
+                                <div class="form-outline">
+                                    <input #inputQuantidade [(ngModel)]="quantidade" type="number" name="quantidade" class="form-control" value="1" required />
+                                </div>
                             </div>
                         </div>
                         <div class="card fs-5 mb-4">
@@ -36,7 +40,7 @@
                                 TOTAL DO ITEM
                             </div>
                             <div class="card-body text-end fw-bold">
-                                <span>R$ 200,00</span>
+                                <span>R$ {{ totalItem }}</span>
                             </div>
                         </div>
                     </section>
@@ -64,30 +68,16 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @for (product of products; let i = $index; track product.id) {
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>2365424587956</td>
-                                    <td>Coca</td>
-                                    <td>2</td>
-                                    <td>R$ 10</td>
-                                    <td>R$ 20</td>
+                                    <th scope="row">{{ i + 1 }}</th>
+                                    <td>{{ product.codigo }}</td>
+                                    <td>{{ product.descricao }}</td>
+                                    <td>{{ venda.itens[i].quantidade }}</td>
+                                    <td>R$ {{ product.precoUnitario }}</td>
+                                    <td>R$ {{ venda.itens[i].quantidade * product.precoUnitario }}</td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>2365424587956</td>
-                                    <td>Coca</td>
-                                    <td>2</td>
-                                    <td>R$ 10</td>
-                                    <td>R$ 20</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>2365424587956</td>
-                                    <td>Coca</td>
-                                    <td>2</td>
-                                    <td>R$ 10</td>
-                                    <td>R$ 20</td>
-                                </tr>
+                            }
                             </tbody>
                         </table>
                     </div>

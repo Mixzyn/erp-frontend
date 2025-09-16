@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   styleUrl: './add-product.component.css'
 })
 export class AddProductComponent {
-  private  productService = inject(ProductService);
+  private productService = inject(ProductService);
   private router = inject(Router);
   
   addProductForm!: FormGroup;
@@ -49,7 +49,7 @@ export class AddProductComponent {
   }
 
   async onSubmit() {
-    const addProduct = await this.productService.addProduct({ descricao: this.description!.value, codigo: this.code!.value, precoUnitario: this.price!.value, imagePath: this.imagePath?.value });
+    const addProduct = await this.productService.addProduct({ id: null, descricao: this.description!.value, codigo: this.code!.value, precoUnitario: this.price!.value, imagePath: this.imagePath?.value });
 
     if (addProduct) {
       this.router.navigateByUrl("produtos");

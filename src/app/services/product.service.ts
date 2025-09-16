@@ -11,7 +11,7 @@ export class ProductService {
   private readonly apiUrl = "http://localhost:8080/"
   private readonly endpoint = "produtos"
 
-  async addProduct(product: any): Promise<boolean> {
+  async addProduct(product: Product): Promise<boolean> {
     const formData = new FormData();
 
     if (product.imagePath) {
@@ -38,6 +38,10 @@ export class ProductService {
 
   getProduct(productId: string): Observable<Product> {
     return this.http.get<Product>(this.apiUrl + this.endpoint + "/" + productId);
+  }
+
+  getProductByCode(productCode: string): Observable<Product> {
+    return this.http.get<Product>(this.apiUrl + this.endpoint + "/codigo/" + productCode);
   }
 
   getProductImage(imagePath: string) {
