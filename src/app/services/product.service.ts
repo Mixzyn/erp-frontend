@@ -44,6 +44,10 @@ export class ProductService {
     return this.http.get<Product>(this.apiUrl + this.endpoint + "/codigo/" + productCode);
   }
 
+  getProductsByDescription(description: string): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl + this.endpoint + "/search?descricao=" + description);
+  }
+
   getProductImage(imagePath: string) {
     return this.apiUrl + imagePath;
   }

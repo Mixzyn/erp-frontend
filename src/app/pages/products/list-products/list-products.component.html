@@ -1,8 +1,16 @@
 <div class="container">
-    <section id="actions" class="pt-5">
-        <button type="button" class="btn btn-success mb-4" routerLink="/cadastrar-produto">
+    <section id="actions" class="pt-5 d-flex gap-3 mb-4">
+        <button type="button" class="btn btn-success w-25" routerLink="/cadastrar-produto">
             Cadastrar Produto
         </button>
+        <div class="input-group w-75">
+            <span class="input-group-text">
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                    <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </span>
+            <input type="text" class="form-control" name="inputSearch" placeholder="Pesquisar produto" [(ngModel)]="inputSearch" (ngModelChange)="onSearch($event)">
+        </div>
     </section>
 
     <section id="products list">
@@ -44,12 +52,12 @@
 </div>
 
 <!-- Modal -->
-<div class="modal" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+<div class="modal" id="deleteProductModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="deleteProductModalLabel">Excluir Produto</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <p>Tem certeza que você deseja excluir esse produto?<br>Obs.: O produto só pode ser excluido se não estiver cadastrado em nenhuma venda.</p>

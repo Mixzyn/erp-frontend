@@ -1,9 +1,17 @@
 <div class="container">
     <div class="row">
-        <div class="col py-5">
+        <div class="col-5 py-5">
             <div class="row">
                 <div class="col">
-                    <img [src]="imagePreview" alt="Coca lata" class="img-fluid">
+                    <img [src]="imagePreview" alt="Coca lata" class="img-fluid mb-5">
+                    <div class="d-flex flex-column gap-3 border rounded py-4 px-4 bg-light">
+                        <span class="fw-bold"><span class="text-primary fs-5">F1</span> - Inserir código</span>
+                        <span class="fw-bold"><span class="text-primary fs-5">F2</span> - Definir quantidade</span>
+                        <span class="fw-bold"><span class="text-primary fs-5">Enter</span> - Consultar código</span>
+                        <span class="fw-bold"><span class="text-primary fs-5">F3</span> - Adicionar item</span>
+                        <span class="fw-bold"><span class="text-primary fs-5">F4</span> - Pesquisar produtos</span>
+                        <span class="fw-bold"><span class="text-primary fs-5">F5</span> - Finalizar venda</span>
+                    </div>
                 </div>
                 <div class="col">
                     <section id="product info">
@@ -13,7 +21,7 @@
                             </div>
                             <div class="card-body text-end fw-bold">
                                 <div class="form-outline">
-                                    <input  #inputCodigo [(ngModel)]="codigo" type="text" name="codigo" class="form-control" required />
+                                    <input #inputCodigo [(ngModel)]="codigo" type="text" name="codigo" class="form-control" required />
                                 </div>
                             </div>
                         </div>
@@ -22,7 +30,7 @@
                                 VALOR UNITÁRIO
                             </div>
                             <div class="card-body text-end fw-bold">
-                                <span>R$ {{ valorUnitario }}</span>
+                                <span>R$ {{ valorUnitario | number:'1.2-2':'pt-BR' }}</span>
                             </div>
                         </div>
                         <div class="card fs-5 mb-4">
@@ -40,7 +48,7 @@
                                 TOTAL DO ITEM
                             </div>
                             <div class="card-body text-end fw-bold">
-                                <span>R$ {{ totalItem }}</span>
+                                <span>R$ {{ totalItem | number:'1.2-2':'pt-BR' }}</span>
                             </div>
                         </div>
                     </section>
@@ -68,16 +76,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (product of products; let i = $index; track product.id) {
+                                @for (item of itens; let i = $index; track $index) {
                                 <tr>
                                     <th scope="row">{{ i + 1 }}</th>
-                                    <td>{{ product.codigo }}</td>
-                                    <td>{{ product.descricao }}</td>
+                                    <td>{{ item.codigo }}</td>
+                                    <td>{{ item.descricao }}</td>
                                     <td>{{ venda.itens[i].quantidade }}</td>
-                                    <td>R$ {{ product.precoUnitario }}</td>
-                                    <td>R$ {{ venda.itens[i].quantidade * product.precoUnitario }}</td>
+                                    <td>R$ {{ item.precoUnitario | number:'1.2-2':'pt-BR' }}</td>
+                                    <td>R$ {{ (venda.itens[i].quantidade * item.precoUnitario) | number:'1.2-2':'pt-BR' }}</td>
                                 </tr>
-                            }
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -91,7 +99,7 @@
                             SUBTOTAL
                         </div>
                         <div class="card-body text-end fw-bold">
-                            <span>R$ 100,00</span>
+                            <span>R$ {{ subTotal | number:'1.2-2':'pt-BR' }}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -118,6 +126,56 @@
                     </div>
                 </div>
             </section>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div #searchProductModal class="modal" id="searchProductModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="searchProductModalLabel">Pesquisar Produtos</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <section id="actions" class="mb-4">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <svg width="20" height="20" viewBox="0 0 20 20">
+                                <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </span>
+                        <input #inputSearch type="text" class="form-control" name="inputSearch" placeholder="Pesquisar produto" [(ngModel)]="search" (ngModelChange)="onSearch($event)">
+                    </div>
+                </section>
+                <section id="products list">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Descrição</th>
+                                <th scope="col">Código</th>
+                                <th scope="col">Preço</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (product of searchProducts; let i = $index; track product.id) {
+                            <tr [class.table-active]="i === selectedIndex">
+                                <th scope="row">{{ product.id }}</th>
+                                <td>{{ product.descricao }}</td>
+                                <td>{{ product.codigo }}</td>
+                                <td>R$ {{ product.precoUnitario }}</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="">Excluir</button> -->
+            </div>
         </div>
     </div>
 </div>

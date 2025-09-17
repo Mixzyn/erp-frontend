@@ -4,34 +4,63 @@ import { VendaService } from '../../services/venda.service';
 import { Venda } from '../../models/venda';
 import { Product } from '../../models/product';
 import { FormsModule } from '@angular/forms';
+import { Modal } from 'bootstrap';
+import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { DecimalPipe } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localePt);
 
 @Component({
   selector: 'app-pdv',
-  imports: [FormsModule],
+  imports: [FormsModule, DecimalPipe],
   templateUrl: './pdv.component.html',
   styleUrl: './pdv.component.css'
 })
 export class PdvComponent {
   private productService = inject(ProductService);
   private vendaService = inject(VendaService);
-  products: Product[] = [];
+
+  itens: Product[] = [];
   venda: Venda = { itens: [] }
+  searchProducts: Product[] = [];
 
   @ViewChild('inputCodigo') inputCodigo!: ElementRef<HTMLInputElement>;
+  @ViewChild('inputSearch') inputSearch!: ElementRef<HTMLInputElement>;
   @ViewChild('inputQuantidade') inputQuantidade!: ElementRef<HTMLInputElement>;
+  @ViewChild('searchProductModal') searchProductModal!: ElementRef;
+
   codigo: string = '';
   quantidade: number | null = 1;
   valorUnitario: number = 0;
   totalItem: number = 0;
   imagePreview: string = "img/products/sem-imagem.jpg";
+  subTotal: number = 0;
+  search!: string;
+  private searchTerms = new Subject<string>();
+  selectedIndex: number = 0;
 
-  // Captura global da tecla F1
+  constructor() {
+    this.searchTerms.pipe(
+      debounceTime(300),          // espera 300ms depois da última tecla
+      distinctUntilChanged(),      // ignora se o valor não mudou
+      switchMap(term => this.productService.getProductsByDescription(term))
+    ).subscribe(produtos => this.searchProducts = produtos);
+  }
+
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'F1') {
       event.preventDefault(); // impede ação padrão do navegador
+
+      // out modal
       this.codigo = '';
       this.inputCodigo.nativeElement.focus();
+
+      // in modal
+      this.search = '';
+      this.inputSearch.nativeElement.focus();
     }
 
     if (event.key === 'F2') {
@@ -41,6 +70,15 @@ export class PdvComponent {
     }
 
     if (event.key === 'Enter') {
+      event.preventDefault();
+
+      // in modal
+      this.copySelectedValue();
+      this.closeModal();
+      this.search = '';
+      this.searchProducts = [];
+
+      // out modal
       this.consultItem(this.codigo);
     }
 
@@ -48,22 +86,31 @@ export class PdvComponent {
       event.preventDefault();
       if (this.codigo && this.codigo.length > 0) {
         this.addItem(this.codigo, Number(this.quantidade));
+        this.subTotal += this.totalItem;
         this.clearInputs();
       }
     }
 
     if (event.key === 'F4') {
       event.preventDefault();
-      // this.submitVenda();
+      this.openModal();
     }
 
+    if (event.key === 'ArrowDown') {
+      this.selectedIndex = Math.min(this.selectedIndex + 1, this.searchProducts.length - 1);
+      event.preventDefault();
+    } else if (event.key === 'ArrowUp') {
+      this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
+      event.preventDefault();
+
+    }
   }
 
   private addItem(codigo: string, quantidade: number): void {
     this.productService.getProductByCode(codigo).subscribe({
       next: (product) => {
         if (product) {
-          this.products.push(product);
+          this.itens.push(product);
           this.venda.itens.push({ productId: product.id!, quantidade: quantidade });
         } else {
           console.warn("Produto não encontrado");
@@ -76,18 +123,19 @@ export class PdvComponent {
   }
 
   private consultItem(codigo: string): void {
-    let consultProduct: Product;
-    this.productService.getProductByCode(codigo).subscribe({
-      next: (product) => {
-        this.valorUnitario = product.precoUnitario;
-        this.totalItem = product.precoUnitario * this.quantidade!;
+    if (codigo && codigo.length > 0) {
+      this.productService.getProductByCode(codigo).subscribe({
+        next: (product) => {
+          this.valorUnitario = product.precoUnitario;
+          this.totalItem = product.precoUnitario * this.quantidade!;
 
-        if (product.imagePath) {
-          this.imagePreview = this.productService.getProductImage(product.imagePath);
-        }
+          if (product.imagePath) {
+            this.imagePreview = this.productService.getProductImage(product.imagePath);
+          }
 
-      },
-    });
+        },
+      });
+    }
   }
 
   private clearInputs() {
@@ -98,9 +146,38 @@ export class PdvComponent {
     this.imagePreview = "img/products/sem-imagem.jpg";
   }
 
+  openModal() {
+    let modalInstance = Modal.getInstance(this.searchProductModal.nativeElement);
+
+    if (!modalInstance) {
+      modalInstance = new Modal(this.searchProductModal.nativeElement);
+    }
+
+    modalInstance.show();
+  }
+
+  closeModal() {
+    const modalInstance = Modal.getInstance(this.searchProductModal.nativeElement);
+    if (modalInstance) {
+      modalInstance.hide();
+    }
+  }
+
+  onSearch(valor: string): void {
+    this.searchTerms.next(valor);
+  }
+
+  copySelectedValue() {
+    if (this.searchProducts.length > 0) {
+      const produto = this.searchProducts[this.selectedIndex];
+      this.codigo = produto.codigo;
+    }
+  }
+
+
   /*   private submitVenda(): void {
-      if (this.products.length > 0) {
-        this.venda.itens.push(this.products);
+      if (this.itens.length > 0) {
+        this.venda.itens.push(this.itens);
         this.vendaService.addVenda();
       }
     } */
