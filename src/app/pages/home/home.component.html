@@ -1,72 +1,24 @@
-<header class="bg-primary text-white text-center py-5">
-    <div class="container">
-        <h1>Welcome to My Website</h1>
-        <p class="lead">Your one-stop solution for all your needs</p>
-        <a href="#services" class="btn btn-light btn-lg">Learn More</a>
-    </div>
-</header>
-
-<!-- About Section -->
-<section id="about" class="py-5">
-    <div class="container text-center">
-        <h2>About Us</h2>
-        <p class="lead">We are committed to providing the best services to our customers.</p>
-    </div>
-</section>
-
 <!-- Services Section -->
-<section id="services" class="py-5 bg-light">
+<section id="services" class="py-5 h-100 bg-light">
     <div class="container">
-        <h2 class="text-center">Our Services</h2>
+        <h2 class="text-center">Serviços</h2>
         <div class="row text-center mt-4">
-            <div class="col-md-4">
-                <div class="card p-3">
+            <div class="col">
+                <div role="button" routerLink="/pdv" class="card p-3">
                     <div class="card-body">
-                        <h5 class="card-title">Service 1</h5>
-                        <p class="card-text">High-quality service to meet your needs.</p>
+                        <h5 class="card-title">PDV</h5>
+                        <p class="card-text">Ponto de Venda</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card p-3">
+            <div class="col">
+                <div role="button" routerLink="/produtos" class="card p-3">
                     <div class="card-body">
-                        <h5 class="card-title">Service 2</h5>
-                        <p class="card-text">We deliver excellence and professionalism.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Service 3</h5>
-                        <p class="card-text">Tailored solutions just for you.</p>
+                        <h5 class="card-title">Lista de Produtos</h5>
+                        <p class="card-text">Gerenciar o cadastro de produtos</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- Contact Section -->
-<section id="contact" class="py-5">
-    <div class="container text-center">
-        <h2>Contact Us</h2>
-        <p class="lead">We would love to hear from you!</p>
-        <form>
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Your Name">
-                    </div>
-                    <div class="mb-3">
-                        <input type="email" class="form-control" placeholder="Your Email">
-                    </div>
-                    <div class="mb-3">
-                        <textarea class="form-control" rows="4" placeholder="Your Message"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
-                </div>
-            </div>
-        </form>
     </div>
 </section>

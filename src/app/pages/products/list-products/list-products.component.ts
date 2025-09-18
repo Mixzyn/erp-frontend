@@ -4,10 +4,11 @@ import { ProductService } from '../../../services/product.service';
 import { RouterLink } from '@angular/router';
 import { debounceTime, delay, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-list-products',
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, DecimalPipe],
   templateUrl: './list-products.component.html',
   styleUrl: './list-products.component.css'
 })

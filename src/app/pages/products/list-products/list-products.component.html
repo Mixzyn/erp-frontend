@@ -30,7 +30,7 @@
                     <th scope="row">{{ product.id }}</th>
                     <td>{{ product.descricao }}</td>
                     <td>{{ product.codigo }}</td>
-                    <td>R$ {{ product.precoUnitario }}</td>
+                    <td>R$ {{ product.precoUnitario | number:'1.2-2':'pt-BR' }}</td>
                     <td>
                         <span class="edit-icon" role="button" routerLink="/produto/{{ product.id }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="#0d6efd">

@@ -7,10 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { DecimalPipe } from '@angular/common';
-import localePt from '@angular/common/locales/pt';
-import { registerLocaleData } from '@angular/common';
-
-registerLocaleData(localePt);
 
 @Component({
   selector: 'app-pdv',
@@ -49,22 +45,24 @@ export class PdvComponent {
     ).subscribe(produtos => this.searchProducts = produtos);
   }
 
+  ngAfterViewInit() {
+    this.inputCodigo.nativeElement.focus();
+  }
+
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'F1') {
-      event.preventDefault(); // impede ação padrão do navegador
+      event.preventDefault();
 
       // out modal
       this.codigo = '';
       this.inputCodigo.nativeElement.focus();
-
-      // in modal
-      this.search = '';
-      this.inputSearch.nativeElement.focus();
     }
 
     if (event.key === 'F2') {
       event.preventDefault();
+
+      // out modal
       this.quantidade = null;
       this.inputQuantidade.nativeElement.focus();
     }
@@ -84,6 +82,8 @@ export class PdvComponent {
 
     if (event.key === 'F3') {
       event.preventDefault();
+
+      // out modal
       if (this.codigo && this.codigo.length > 0) {
         this.addItem(this.codigo, Number(this.quantidade));
         this.subTotal += this.totalItem;
@@ -93,16 +93,28 @@ export class PdvComponent {
 
     if (event.key === 'F4') {
       event.preventDefault();
+
+      // out modal
       this.openModal();
+
+      // in modal
+      this.search = '';
+      this.inputSearch.nativeElement.focus();
+      this.productService.getProducts().subscribe(products => this.searchProducts = products);
     }
 
     if (event.key === 'ArrowDown') {
-      this.selectedIndex = Math.min(this.selectedIndex + 1, this.searchProducts.length - 1);
-      event.preventDefault();
-    } else if (event.key === 'ArrowUp') {
-      this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
       event.preventDefault();
 
+      // in modal
+      this.selectedIndex = Math.min(this.selectedIndex + 1, this.searchProducts.length - 1);
+    }
+
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+
+      // in modal
+      this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
     }
   }
 
@@ -132,7 +144,6 @@ export class PdvComponent {
           if (product.imagePath) {
             this.imagePreview = this.productService.getProductImage(product.imagePath);
           }
-
         },
       });
     }
@@ -152,7 +163,7 @@ export class PdvComponent {
     if (!modalInstance) {
       modalInstance = new Modal(this.searchProductModal.nativeElement);
     }
-
+    
     modalInstance.show();
   }
 

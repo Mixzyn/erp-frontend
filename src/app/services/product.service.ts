@@ -20,7 +20,7 @@ export class ProductService {
 
     formData.append('descricao', product.descricao);
     formData.append('codigo', product.codigo);
-    formData.append('precoUnitario', product.precoUnitario.toString());
+    formData.append('precoUnitario', product.precoUnitario.toString().replace(',', '.'));
 
     try {
       await lastValueFrom(
