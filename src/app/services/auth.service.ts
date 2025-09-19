@@ -7,8 +7,9 @@ import { lastValueFrom, map } from 'rxjs';
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private readonly apiUrl = "http://localhost:8080/"
-  private readonly endpointLogin = "login"
+  private readonly apiUrl = "http://localhost:8080/";
+  private readonly endpointLogin = "login";
+  private readonly endpointVerifyAuth = "verify-auth";
   private readonly TOKEN_KEY = "authToken";
 
   setToken(token: string): void {
@@ -26,8 +27,6 @@ export class AuthService {
   async login(body: any): Promise<boolean> {
     this.removeToken();
 
-    // return true;
-
     try {
       await lastValueFrom(this.http.post(this.apiUrl + this.endpointLogin, JSON.stringify(body)).pipe(
         map((res: any) => this.setToken(res.accessToken))
@@ -39,14 +38,11 @@ export class AuthService {
   }
 
   async isAuthenticated(): Promise<boolean> {
-
-    // return true;
-
     const token: string | null = this.getToken();
 
     if (token) {
       try {
-        await lastValueFrom(this.http.get(this.apiUrl + "verify-auth"));
+        await lastValueFrom(this.http.get(this.apiUrl + this.endpointVerifyAuth));
         return true;
       } catch {
         return false;
@@ -56,4 +52,7 @@ export class AuthService {
     return false;
   }
 
+  logout(): void {
+    this.removeToken();
+  }
 }

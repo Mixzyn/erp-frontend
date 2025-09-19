@@ -8,8 +8,8 @@ import { Product } from '../models/product';
 })
 export class ProductService {
   private http = inject(HttpClient);
-  private readonly apiUrl = "http://localhost:8080/"
-  private readonly endpoint = "produtos"
+  private readonly apiUrl = "http://localhost:8080/";
+  private readonly endpoint = "produtos";
 
   async addProduct(product: Product): Promise<boolean> {
     const formData = new FormData();

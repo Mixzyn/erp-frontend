@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { LoginComponent } from '../../layout/login/login.component';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { formService } from '../../services/form.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-signup',
@@ -13,12 +14,19 @@ import { formService } from '../../services/form.service';
 })
 export class SignupComponent {
   formService = inject(formService);
+  private router = inject(Router);
+  private userService = inject(UserService);
 
-  signupForm = new FormGroup({
-    username: new FormControl<string>('', [Validators.required, Validators.minLength(5)]),
-    password: new FormControl<string>('', [Validators.required, Validators.minLength(5)]),
-    confirmPassword: new FormControl<string>('', [Validators.required, this.confirmPasswordValidator()])
-  })
+  signupForm!: FormGroup;
+  registerFailed: boolean = false;
+
+  constructor(private fb: FormBuilder) {
+    this.signupForm = this.fb.group({
+      username: [null, Validators.required],
+      password: [null, Validators.required],
+      confirmPassword: [null, Validators.required]
+    })
+  }
 
   get username() { return this.signupForm.get('username'); }
   get password() { return this.signupForm.get('password'); }
@@ -34,7 +42,14 @@ export class SignupComponent {
     };
   }
 
-  onSubmit() {
+  async onSubmit() {
+    const register = await this.userService.register({ username: this.username!.value, password: this.password!.value });
 
+    if (register) {
+      this.router.navigateByUrl("login");
+      return;
+    }
+
+    this.registerFailed = true;
   }
 }
