@@ -1,0 +1,40 @@
+<div class="container">
+    <section id="actions" class="pt-5 d-flex gap-3 mb-4">
+        <button type="button" class="btn btn-success w-25" [routerLink]="addLink()">
+            Cadastrar {{ entity() }}
+        </button>
+        <div class="input-group w-75">
+            <span class="input-group-text">
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                    <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </span>
+            <input type="text" class="form-control" name="inputSearch" (ngModel)="inputSearch()" (ngModelChange)="emitOnSearch($event)">
+        </div>
+    </section>
+
+    <section id=" table-list">
+            <table class="table table-hover table-bordered">
+                <ng-content></ng-content>
+            </table>
+    </section>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Excluir {{ entity() }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que você deseja excluir esse {{ entity() }}?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="emitDelete()">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>

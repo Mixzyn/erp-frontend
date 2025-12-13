@@ -5,10 +5,11 @@ import { RouterLink } from '@angular/router';
 import { debounceTime, delay, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
+import { ListComponent } from '../../../layout/list/list.component';
 
 @Component({
   selector: 'app-list-products',
-  imports: [RouterLink, FormsModule, DecimalPipe],
+  imports: [RouterLink, FormsModule, DecimalPipe, ListComponent],
   templateUrl: './list-products.component.html',
   styleUrl: './list-products.component.css'
 })
