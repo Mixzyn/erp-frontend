@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormComponent } from '../../../layout/form/form.component';
 import { ProductService } from '../../../services/product.service';
 import { Router } from '@angular/router';
@@ -14,8 +14,8 @@ export class AddProductComponent {
   private productService = inject(ProductService);
   private router = inject(Router);
   
-  addProductForm!: FormGroup;
   imagePreview: string = "img/products/sem-imagem.jpg";
+  addProductForm!: FormGroup;
   addProductFailed: boolean = false;
 
   constructor(private fb: FormBuilder) {

@@ -9,6 +9,8 @@ import { ListProductsComponent } from './pages/products/list-products/list-produ
 import { AddProductComponent } from './pages/products/add-product/add-product.component';
 import { SingleProductComponent } from './pages/products/single-product/single-product.component';
 import { productResolver } from './guards/product.resolver';
+import { ListUsersComponent } from './pages/users/list-users/list-users.component';
+import { AddUserComponent } from './pages/users/add-user/add-user.component';
 
 export const routes: Routes = [
     {
@@ -36,6 +38,10 @@ export const routes: Routes = [
                 component: HomeComponent,
             },
             {
+                path: "pdv",
+                component: PdvComponent,
+            },
+            {
                 path: "produtos",
                 component: ListProductsComponent,
             },
@@ -44,15 +50,19 @@ export const routes: Routes = [
                 component: AddProductComponent,
             },
             {
-                path: "pdv",
-                component: PdvComponent,
-            },
-            {
                 path: "produto/:id",
                 component: SingleProductComponent,
                 resolve: {
                     product: productResolver,
                 },
+            },
+            {
+                path: "usuarios",
+                component: ListUsersComponent,
+            },
+            {
+                path: "cadastrar-usuario",
+                component: AddUserComponent
             },
         ]
     },

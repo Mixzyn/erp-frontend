@@ -35,14 +35,14 @@ export class SingleProductComponent {
     }
 
     this.editProductForm = this.fb.group({
-      description: [product.descricao, Validators.required],
-      code: [product.codigo, Validators.required],
-      price: [product.precoUnitario, Validators.required],
-      imagePath: [product.imagePath]
+      description: [null],
+      code: [null],
+      price: [null],
+      imagePath: [null]
     });
 
     if (product.imagePath) {
-      this.imagePreview = this.productService.getProductImage(this.imagePath?.value);
+      this.imagePreview = this.productService.getProductImage(product.imagePath);
     }
   }
 
@@ -63,8 +63,14 @@ export class SingleProductComponent {
   }
 
 
-  onSubmit() {
+  async onSubmit() {
+    const addProduct = await this.productService.editProduct({ id: this.product().id, descricao: this.description?.value, codigo: this.code?.value, precoUnitario: this.price?.value, imagePath: this.imagePath?.value });
 
+    if (addProduct) {
+      this.router.navigateByUrl("produtos");
+      return;
+    }
+
+    this.editProductFailed = true;
   }
-
 }

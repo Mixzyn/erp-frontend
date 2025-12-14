@@ -26,8 +26,8 @@ export class ListProductsComponent {
     this.searchTerms.pipe(
       debounceTime(300),          // espera 300ms depois da última tecla
       distinctUntilChanged(),      // ignora se o valor não mudou
-      switchMap(term => this.productService.getProductsByDescription(term))
-    ).subscribe(produtos => this.products = produtos);
+      switchMap(term => this.productService.getProductsByDescription(term)))
+      .subscribe(produtos => this.products = produtos);
   }
 
   deleteProduct() {

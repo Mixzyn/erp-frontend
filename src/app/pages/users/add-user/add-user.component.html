@@ -1,0 +1,17 @@
+<app-form title="Cadastrar Usuário" [imgSrc]="imagePreview" imgAlt="Cola lata" buttonText="Cadastrar" [formGroup]="addUserForm" (submit)="onSubmit()">
+    <div class="form-outline mb-4">
+        <label class="form-label" for="username">Nome de usuário</label>
+        <input type="text" name="username" class="form-control" formControlName="username" required />
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="password">Senha</label>
+        <input type="password" name="password" class="form-control" formControlName="password" required />
+    </div>
+
+    @if (addUserFailed) {
+    <div class="invalid-feedback d-block mb-2">
+        Erro ao cadastrar usuário.
+    </div>
+    }
+</app-form>

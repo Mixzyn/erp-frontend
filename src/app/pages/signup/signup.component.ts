@@ -43,9 +43,9 @@ export class SignupComponent {
   }
 
   async onSubmit() {
-    const register = await this.userService.register({ username: this.username!.value, password: this.password!.value });
+    const addUser = await this.userService.addUser({ id: null, username: this.username!.value, password: this.password!.value });
 
-    if (register) {
+    if (addUser) {
       this.router.navigateByUrl("login");
       return;
     }

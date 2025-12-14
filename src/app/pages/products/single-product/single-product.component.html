@@ -1,17 +1,17 @@
 <app-form title="Produto" [imgSrc]="imagePreview" buttonText="Editar" [formGroup]="editProductForm" (submit)="onSubmit()">
     <div class="form-outline mb-4">
         <label class="form-label" for="description">Descrição</label>
-        <input type="text" name="description" class="form-control" formControlName="description" required />
+        <input type="text" name="description" class="form-control" formControlName="description" [placeholder]="product().descricao"/>
     </div>
 
     <div class="form-outline mb-4">
         <label class="form-label" for="code">Código</label>
-        <input type="text" name="code" class="form-control" formControlName="code" required />
+        <input type="text" name="code" class="form-control" formControlName="code" [placeholder]="product().codigo"/>
     </div>
 
     <div class="form-outline mb-4">
         <label class="form-label" for="price">Preço</label>
-        <input type="text" name="price" class="form-control" formControlName="price" required />
+        <input type="text" name="price" class="form-control" formControlName="price" [placeholder]="product().precoUnitario"/>
     </div>
 
     <div class="form-outline mb-4">

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { lastValueFrom, map } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +12,25 @@ export class UserService {
   private readonly endpoint = "users";
   private readonly endpointIsAdmin = "verify-admin-auth";
 
-  async register(body: any): Promise<boolean> {
+  async addUser(user: User): Promise<boolean> {
     try {
-      await lastValueFrom(this.http.post(this.apiUrl + this.endpoint, JSON.stringify(body)));
+      await lastValueFrom(this.http.post(this.apiUrl + this.endpoint, JSON.stringify(user)));
       return true;
     } catch {
       return false;
     }
+  }
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl + this.endpoint)
+  }
+
+  getUsersByUsername(username: string): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl + this.endpoint + "/search?username=" + username);
+  }
+
+  deleteUser(userId: string): Observable<void> {
+    return this.http.delete<void>(this.apiUrl + this.endpoint + "/" + userId);
   }
 
   async isAdmin(): Promise<boolean> {
