@@ -1,4 +1,4 @@
-<app-form title="Produto" [imgSrc]="imagePreview" buttonText="Editar" [formGroup]="editProductForm" (submit)="onSubmit()">
+<app-form title="Produto" [imgSrc]="imagePreview" buttonText="Editar" listUrl="/produtos" [formGroup]="editProductForm" (submit)="onSubmit()">
     <div class="form-outline mb-4">
         <label class="form-label" for="description">Descrição</label>
         <input type="text" name="description" class="form-control" formControlName="description" [placeholder]="product().descricao"/>

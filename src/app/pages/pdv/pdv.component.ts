@@ -31,7 +31,7 @@ export class PdvComponent {
   quantidade: number | null = 1;
   valorUnitario: number = 0;
   totalItem: number = 0;
-  imagePreview: string = "img/products/sem-imagem.jpg";
+  imagePreview: string = 'img/products/sem-imagem.jpg';
   subTotal: number = 0;
   search!: string;
   private searchTerms = new Subject<string>();
@@ -125,11 +125,11 @@ export class PdvComponent {
           this.itens.push(product);
           this.venda.itens.push({ productId: product.id!, quantidade: quantidade });
         } else {
-          console.warn("Produto não encontrado");
+          console.warn('Produto não encontrado');
         }
       },
       error: (err) => {
-        console.error("Erro ao buscar produto:", err);
+        console.error('Erro ao buscar produto:', err);
       }
     });
   }
@@ -154,7 +154,7 @@ export class PdvComponent {
     this.quantidade = 1;
     this.valorUnitario = 0;
     this.totalItem = 0;
-    this.imagePreview = "img/products/sem-imagem.jpg";
+    this.imagePreview = 'img/products/sem-imagem.jpg';
   }
 
   openModal() {

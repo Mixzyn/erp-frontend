@@ -8,8 +8,8 @@ import { Product } from '../models/product';
 })
 export class ProductService {
   private http = inject(HttpClient);
-  private readonly apiUrl = "http://localhost:8080/";
-  private readonly endpoint = "produtos";
+  private readonly apiUrl = 'http://localhost:8080/';
+  private readonly endpoint = 'produtos';
 
   async addProduct(product: Product): Promise<boolean> {
     if (product.imagePath) {
@@ -34,7 +34,6 @@ export class ProductService {
       await lastValueFrom(
         this.http.post(this.apiUrl + this.endpoint, JSON.stringify(product))
       );
-      console.log("FUNFOUFAOFUWOUFA");
       return true;
     } catch {
       return false;
@@ -60,7 +59,7 @@ export class ProductService {
 
       try {
         await lastValueFrom(
-          this.http.put(this.apiUrl + this.endpoint + "/" + product.id, formData)
+          this.http.put(this.apiUrl + this.endpoint + '/' + product.id, formData)
         );
         return true;
       } catch {
@@ -70,7 +69,7 @@ export class ProductService {
 
     try {
       await lastValueFrom(
-        this.http.put(this.apiUrl + this.endpoint + "/" + product.id, JSON.stringify(product))
+        this.http.put(this.apiUrl + this.endpoint + '/' + product.id, JSON.stringify(product))
       );
       return true;
     } catch {
@@ -83,15 +82,15 @@ export class ProductService {
   }
 
   getProduct(productId: string): Observable<Product> {
-    return this.http.get<Product>(this.apiUrl + this.endpoint + "/" + productId);
+    return this.http.get<Product>(this.apiUrl + this.endpoint + '/' + productId);
   }
 
   getProductByCode(productCode: string): Observable<Product> {
-    return this.http.get<Product>(this.apiUrl + this.endpoint + "/codigo/" + productCode);
+    return this.http.get<Product>(this.apiUrl + this.endpoint + '/codigo/' + productCode);
   }
 
   getProductsByDescription(description: string): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl + this.endpoint + "/search?descricao=" + description);
+    return this.http.get<Product[]>(this.apiUrl + this.endpoint + '/search?descricao=' + description);
   }
 
   getProductImage(imagePath: string) {
@@ -99,6 +98,6 @@ export class ProductService {
   }
 
   deleteProduct(productId: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl + this.endpoint + "/" + productId);
+    return this.http.delete<void>(this.apiUrl + this.endpoint + '/' + productId);
   }
 }

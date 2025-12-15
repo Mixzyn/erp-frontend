@@ -14,7 +14,7 @@ export class AddProductComponent {
   private productService = inject(ProductService);
   private router = inject(Router);
   
-  imagePreview: string = "img/products/sem-imagem.jpg";
+  imagePreview: string = 'img/products/sem-imagem.jpg';
   addProductForm!: FormGroup;
   addProductFailed: boolean = false;
 
@@ -52,7 +52,7 @@ export class AddProductComponent {
     const addProduct = await this.productService.addProduct({ id: null, descricao: this.description!.value, codigo: this.code!.value, precoUnitario: this.price!.value, imagePath: this.imagePath?.value });
 
     if (addProduct) {
-      this.router.navigateByUrl("produtos");
+      this.router.navigateByUrl('produtos');
       return;
     }
 

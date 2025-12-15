@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { LoginComponent } from "../../layout/login/login.component";
+import { LoginComponent } from '../../layout/login/login.component';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { formService } from '../../services/form.service';
@@ -34,7 +34,7 @@ export class SigninComponent {
     const login = await this.authService.login({ id: null, username: this.username!.value, password: this.password!.value });
 
     if (login) {
-      this.router.navigateByUrl("home");
+      this.router.navigateByUrl('home');
       return;
     }
 

@@ -36,7 +36,7 @@ export class ListProductsComponent {
         this.clearTable();
         this.getProducts();
       },
-      error: (err) => console.error("Erro ao deletar produto:", err)
+      error: (err) => console.error('Erro ao deletar produto:', err)
     });
   }
 

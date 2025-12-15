@@ -9,6 +9,7 @@ import { RouterLink } from '@angular/router';
 })
 export class FormComponent {
   title = input<string>();
+  listUrl = input<string>();
   imgSrc = input<string>();
   imgAlt = input<string>();
   buttonText = input<string>();

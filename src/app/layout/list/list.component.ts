@@ -11,7 +11,7 @@ import { RouterLink } from '@angular/router';
 export class ListComponent {
   entity = input<string>();
   addLink = input<string>();
-  inputSearch = input<string>("");
+  inputSearch = input<string>('');
 
   delete = output<void>();
   onSearch = output<string>();

@@ -17,7 +17,7 @@ export class SingleProductComponent {
 
   product = input.required<Product>();
   editProductForm!: FormGroup;
-  imagePreview: string = "img/products/sem-imagem.jpg";
+  imagePreview: string = 'img/products/sem-imagem.jpg';
   editProductFailed: boolean = false;
 
   constructor(private fb: FormBuilder) { }
@@ -64,10 +64,10 @@ export class SingleProductComponent {
 
 
   async onSubmit() {
-    const addProduct = await this.productService.editProduct({ id: this.product().id, descricao: this.description?.value, codigo: this.code?.value, precoUnitario: this.price?.value, imagePath: this.imagePath?.value });
+    const editProduct = await this.productService.editProduct({ id: this.product().id, descricao: this.description?.value, codigo: this.code?.value, precoUnitario: this.price?.value, imagePath: this.imagePath?.value });
 
-    if (addProduct) {
-      this.router.navigateByUrl("produtos");
+    if (editProduct) {
+      this.router.navigateByUrl('produtos');
       return;
     }
 

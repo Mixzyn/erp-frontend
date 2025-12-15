@@ -7,10 +7,10 @@ import { lastValueFrom, map } from 'rxjs';
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private readonly apiUrl = "http://localhost:8080/";
-  private readonly endpointLogin = "login";
-  private readonly endpointVerifyAuth = "verify-auth";
-  private readonly TOKEN_KEY = "authToken";
+  private readonly apiUrl = 'http://localhost:8080/';
+  private readonly endpointLogin = 'login';
+  private readonly endpointVerifyAuth = 'verify-auth';
+  private readonly TOKEN_KEY = 'authToken';
 
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);

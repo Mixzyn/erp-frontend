@@ -1,0 +1,17 @@
+<app-form title="Usuário" [imgSrc]="imagePreview" buttonText="Editar" listUrl="/admin/usuarios" [formGroup]="editUserForm" (submit)="onSubmit()">
+    <div class="form-outline mb-4">
+        <label class="form-label" for="username">Nome de Usuário</label>
+        <input type="text" name="username" class="form-control" formControlName="username" [placeholder]="user().username"/>
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="password">Senha</label>
+        <input type="text" name="password" class="form-control" formControlName="password"/>
+    </div>
+
+    @if (editUserFailed) {
+    <div class="invalid-feedback d-block mb-2">
+        Erro ao editar usuário.
+    </div>
+    }
+</app-form>

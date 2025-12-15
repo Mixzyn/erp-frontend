@@ -11,63 +11,80 @@ import { SingleProductComponent } from './pages/products/single-product/single-p
 import { productResolver } from './guards/product.resolver';
 import { ListUsersComponent } from './pages/users/list-users/list-users.component';
 import { AddUserComponent } from './pages/users/add-user/add-user.component';
+import { SingleUserComponent } from './pages/users/single-user/single-user.component';
+import { userResolver } from './guards/user.resolver';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
     {
-        path: "",
-        pathMatch: "full",
-        redirectTo: "home"
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'home'
     },
     {
-        path: "login",
+        path: 'login',
         component: SigninComponent
     },
     {
-        path: "cadastrar",
+        path: 'cadastrar',
         component: SignupComponent
     },
     {
-        path: "",
+        path: '',
         component: LayoutComponent,
-        pathMatch: "prefix",
+        pathMatch: 'prefix',
         canActivate: [authGuard],
         canActivateChild: [authGuard],
         children: [
             {
-                path: "home",
+                path: 'home',
                 component: HomeComponent,
             },
             {
-                path: "pdv",
+                path: 'pdv',
                 component: PdvComponent,
             },
             {
-                path: "produtos",
+                path: 'produtos',
                 component: ListProductsComponent,
             },
             {
-                path: "cadastrar-produto",
+                path: 'cadastrar-produto',
                 component: AddProductComponent,
             },
             {
-                path: "produto/:id",
+                path: 'produto/:id',
                 component: SingleProductComponent,
                 resolve: {
                     product: productResolver,
                 },
             },
-            {
-                path: "usuarios",
-                component: ListUsersComponent,
-            },
-            {
-                path: "cadastrar-usuario",
-                component: AddUserComponent
-            },
         ]
     },
     {
-        path: "**",
-        redirectTo: "home"
+        path: 'admin',
+        component: LayoutComponent,
+        canActivateChild: [adminGuard],
+        children: [
+            {
+                path: 'usuarios',
+                component: ListUsersComponent,
+            },
+            {
+                path: 'cadastrar-usuario',
+                component: AddUserComponent,
+            },
+            {
+                path: 'usuario/:id',
+                component: SingleUserComponent,
+                resolve: {
+                    user: userResolver,
+                },
+            },
+        ],
+    },
+    {
+        path: '**',
+        redirectTo: 'home'
     },
 ];

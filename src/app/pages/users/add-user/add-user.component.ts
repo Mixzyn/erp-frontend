@@ -14,7 +14,7 @@ export class AddUserComponent {
   private userService = inject(UserService);
   private router = inject(Router);
 
-  imagePreview: string = "img/products/sem-imagem.jpg";
+  imagePreview: string = 'img/products/sem-imagem.jpg';
   addUserForm!: FormGroup;
   addUserFailed: boolean = false;
 
@@ -32,7 +32,7 @@ export class AddUserComponent {
     const addUser = await this.userService.addUser({ id: null, username: this.username!.value, password: this.password!.value });
 
     if (addUser) {
-      this.router.navigateByUrl("usuarios");
+      this.router.navigateByUrl('admin/usuarios');
     }
 
     this.addUserFailed = true;

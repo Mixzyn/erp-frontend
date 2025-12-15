@@ -1,4 +1,4 @@
-import { itemVenda } from "./itemVenda";
+import { itemVenda } from './itemVenda';
 
 export interface Venda {
     itens: itemVenda[];
