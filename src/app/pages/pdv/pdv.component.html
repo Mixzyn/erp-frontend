@@ -1,5 +1,14 @@
 <div class="container py-5 d-grid gap-3">
     <div class="row">
+        <div>
+            <div class="card fs-5">
+                <div class="card-body fw-bold">
+                    <span>{{ descricao }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-3">
             <div class="d-flex flex-column gap-3 border rounded py-4 px-4 bg-light">
                 <span class="fw-bold"><span class="text-primary fs-5">Enter</span> - Consultar código</span>
@@ -7,9 +16,8 @@
                 <span class="fw-bold"><span class="text-primary fs-5">F2</span> - Definir quantidade</span>
                 <span class="fw-bold"><span class="text-primary fs-5">F3</span> - Adicionar item</span>
                 <span class="fw-bold"><span class="text-primary fs-5">F4</span> - Pesquisar produtos</span>
-                <span class="fw-bold"><span class="text-primary fs-5">F5</span> - Pagamento em Dinheiro</span>
-                <span class="fw-bold"><span class="text-primary fs-5">F6</span> - Pagamento em Cartão</span>
-                <span class="fw-bold"><span class="text-primary fs-5">F7</span> - Pagamento em PIX</span>
+                <span class="fw-bold"><span class="text-primary fs-5">F6</span> - Receber dinheiro </span>
+                <span class="fw-bold"><span class="text-primary fs-5">F7</span> - Gerar PIX</span>
                 <span class="fw-bold"><span class="text-primary fs-5">F8</span> - Finalizar venda</span>
             </div>
         </div>
@@ -35,7 +43,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (item of itens; let i = $index; track $index) {
+                                @for (item of products; let i = $index; track $index) {
                                 <tr>
                                     <th scope="row">{{ i + 1 }}</th>
                                     <td>{{ item.codigo }}</td>
@@ -114,8 +122,9 @@
                 <div class="card-header bg-primary text-white fw-bold">
                     TOTAL RECEBIDO
                 </div>
-                <div class="card-body text-end fw-bold">
-                    <span>R$ 100,00</span>
+                <div class="d-flex gap-3 card-body text-end fw-bold">
+                    <span>R$ </span>
+                    <input #inputTotalRecebido [(ngModel)]="totalRecebido" type="number" name="totalRecebido" class="form-control"/>
                 </div>
             </div>
         </div>
@@ -125,7 +134,7 @@
                     TROCO
                 </div>
                 <div class="card-body text-end fw-bold">
-                    <span>R$ 100,00</span>
+                    <span>R$ {{ troco | number:'1.2-2':'pt-BR' }}</span>
                 </div>
             </div>
         </div>

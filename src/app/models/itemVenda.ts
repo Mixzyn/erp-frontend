@@ -1,4 +1,4 @@
-export interface itemVenda {
-    productId: number;
+export interface ItemVenda {
+    idProduto: number;
     quantidade: number;
 }

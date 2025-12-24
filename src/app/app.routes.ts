@@ -14,6 +14,7 @@ import { AddUserComponent } from './pages/users/add-user/add-user.component';
 import { SingleUserComponent } from './pages/users/single-user/single-user.component';
 import { userResolver } from './guards/user.resolver';
 import { adminGuard } from './guards/admin.guard';
+import { PixComponent } from './pages/pdv/pix/pix.component';
 
 export const routes: Routes = [
     {
@@ -60,6 +61,11 @@ export const routes: Routes = [
                 },
             },
         ]
+    },
+    {
+        path: 'pix',
+        component: PixComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'admin',

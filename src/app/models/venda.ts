@@ -1,5 +1,5 @@
-import { itemVenda } from './itemVenda';
+import { ItemVenda } from './itemVenda';
 
 export interface Venda {
-    itens: itemVenda[];
+    itens: ItemVenda[];
 }
