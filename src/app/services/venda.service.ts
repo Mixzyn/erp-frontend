@@ -12,8 +12,6 @@ export class VendaService {
   private readonly endpoint = 'vendas';
 
   async addVenda(venda: Venda): Promise<boolean> {
-    console.log(JSON.stringify(venda));
-
     try {
       await lastValueFrom(
         this.http.post(this.apiUrl + this.endpoint, JSON.stringify(venda))
