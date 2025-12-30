@@ -19,6 +19,7 @@
                 <span class="fw-bold"><span class="text-primary fs-5">F6</span> - Receber dinheiro </span>
                 <span class="fw-bold"><span class="text-primary fs-5">F7</span> - Gerar PIX</span>
                 <span class="fw-bold"><span class="text-primary fs-5">F8</span> - Finalizar venda</span>
+                <span class="fw-bold"><span class="text-primary fs-5">Delete</span> - Remover item</span>
             </div>
         </div>
         <div class="col">
@@ -44,7 +45,7 @@
                             </thead>
                             <tbody>
                                 @for (item of products; let i = $index; track $index) {
-                                <tr>
+                                <tr [class.table-active]="i === selectedIndex">
                                     <th scope="row">{{ i + 1 }}</th>
                                     <td>{{ item.codigo }}</td>
                                     <td>{{ item.descricao }}</td>
@@ -124,7 +125,7 @@
                 </div>
                 <div class="d-flex gap-3 card-body text-end fw-bold">
                     <span>R$ </span>
-                    <input #inputTotalRecebido [(ngModel)]="totalRecebido" type="number" name="totalRecebido" class="form-control"/>
+                    <input #inputTotalRecebido [(ngModel)]="totalRecebido" type="number" name="totalRecebido" class="form-control" />
                 </div>
             </div>
         </div>
@@ -141,7 +142,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Search Product Modal -->
 <div #searchProductModal class="modal" id="searchProductModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -186,6 +187,25 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                 <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="">Excluir</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div #deleteModal class="modal" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Excluir item</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que você deseja excluir esse item?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="removeItem()">Excluir</button>
             </div>
         </div>
     </div>

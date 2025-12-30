@@ -32,6 +32,7 @@ export class PdvComponent {
   @ViewChild('inputQuantidade') inputQuantidade!: ElementRef<HTMLInputElement>;
   @ViewChild('inputTotalRecebido') inputTotalRecebido!: ElementRef<HTMLInputElement>;
   @ViewChild('searchProductModal') searchProductModal!: ElementRef;
+  @ViewChild('deleteModal') deleteModal!: ElementRef;
 
   codigo: string = '';
   descricao: string = 'CAIXA ABERTO';
@@ -79,13 +80,29 @@ export class PdvComponent {
     if (event.key === 'Enter') {
       event.preventDefault();
 
-      // in modal
-      this.copySelectedValue();
-      this.closeModal();
-      this.search = '';
-      this.searchProducts = [];
+      // in delete modal
+      const modalInstance2 = Modal.getInstance(this.deleteModal.nativeElement);
+      if (modalInstance2) {
+        this.removeItem();
+        this.closeModal();
+
+        return;
+      }
+
+      // in search products modal
+      const modalInstance1 = Modal.getInstance(this.searchProductModal.nativeElement);
+      if (modalInstance1) {
+        this.copySelectedValue();
+        this.closeModal();
+        this.search = '';
+        this.searchProducts = [];
+      }
 
       // out modal
+      if (!this.quantidade || this.quantidade < 1) {
+        this.quantidade = 1;
+      }
+
       this.consultItem(this.codigo);
 
       if (this.totalRecebido && this.totalRecebido >= this.subTotal && this.subTotal > 0) {
@@ -97,6 +114,10 @@ export class PdvComponent {
       event.preventDefault();
 
       // out modal
+      if (!this.quantidade || this.quantidade < 1) {
+        this.quantidade = 1;
+      }
+
       if (this.codigo && this.codigo.length > 0) {
         this.addItem(this.codigo, Number(this.quantidade));
         this.subTotal += this.totalItem;
@@ -108,7 +129,7 @@ export class PdvComponent {
       event.preventDefault();
 
       // out modal
-      this.openModal();
+      this.openSearchProductModal();
 
       // in modal
       this.search = '';
@@ -143,17 +164,44 @@ export class PdvComponent {
       this.clearPdv();
     }
 
-    if (event.key === 'ArrowDown') {
+    if (event.key === 'Delete') {
       event.preventDefault();
 
-      // in modal
-      this.selectedIndex = Math.min(this.selectedIndex + 1, this.searchProducts.length - 1);
+      // out modal
+      this.openDeleteModal();
+    }
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+
+      // out modal
+      this.closeModal();
+    }
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      const modalInstance1 = Modal.getInstance(this.searchProductModal.nativeElement);
+      const modalInstance2 = Modal.getInstance(this.deleteModal.nativeElement);
+
+      if (modalInstance2) {
+        return;
+      }
+
+      if (modalInstance1) {
+        this.selectedIndex = Math.min(this.selectedIndex + 1, this.searchProducts.length - 1);
+      } else {
+        this.selectedIndex = Math.min(this.selectedIndex + 1, this.products.length - 1);
+      }
     }
 
     if (event.key === 'ArrowUp') {
       event.preventDefault();
 
-      // in modal
+      const modalInstance = Modal.getInstance(this.deleteModal.nativeElement);
+      if (modalInstance) {
+        return;
+      }
+
       this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
     }
   }
@@ -172,6 +220,15 @@ export class PdvComponent {
         console.error('Erro ao buscar produto:', err);
       }
     });
+  }
+
+  public removeItem() {
+    const totalItem = this.products[this.selectedIndex].precoUnitario * this.venda.itens[this.selectedIndex].quantidade
+
+    this.products.splice(this.selectedIndex, 1);
+    this.venda.itens.splice(this.selectedIndex, 1);
+
+    this.subTotal -= totalItem;
   }
 
   private consultItem(codigo: string): void {
@@ -207,24 +264,54 @@ export class PdvComponent {
     this.totalRecebido = 0;
   }
 
-  openModal(): void {
-    let modalInstance = Modal.getInstance(this.searchProductModal.nativeElement);
+  private openSearchProductModal(): void {
+    let modalInstance1 = Modal.getInstance(this.searchProductModal.nativeElement);
+    let modalInstance2 = Modal.getInstance(this.deleteModal.nativeElement);
 
-    if (!modalInstance) {
-      modalInstance = new Modal(this.searchProductModal.nativeElement);
+    if (modalInstance2) {
+      return;
     }
 
-    modalInstance.show();
+    if (!modalInstance1) {
+      modalInstance1 = new Modal(this.searchProductModal.nativeElement);
+    }
+
+    modalInstance1.show();
   }
 
-  closeModal(): void {
-    const modalInstance = Modal.getInstance(this.searchProductModal.nativeElement);
-    if (modalInstance) {
-      modalInstance.hide();
+  private openDeleteModal(): void {
+    let modalInstance1 = Modal.getInstance(this.searchProductModal.nativeElement);
+    let modalInstance2 = Modal.getInstance(this.deleteModal.nativeElement);
+
+    if (modalInstance1) {
+      return;
+    }
+
+    if (!modalInstance2) {
+      modalInstance2 = new Modal(this.deleteModal.nativeElement);
+    }
+
+    modalInstance2.show();
+  }
+
+  private closeModal(): void {
+    this.selectedIndex = 0;
+
+    const modalInstance1 = Modal.getInstance(this.searchProductModal.nativeElement);
+    const modalInstance2 = Modal.getInstance(this.deleteModal.nativeElement);
+
+    if (modalInstance1) {
+      modalInstance1.hide();
+      modalInstance1.dispose();
+    }
+
+    if (modalInstance2) {
+      modalInstance2.hide();
+      modalInstance2.dispose();
     }
   }
 
-  onSearch(valor: string): void {
+  public onSearch(valor: string): void {
     this.searchTerms.next(valor);
   }
 
@@ -275,6 +362,4 @@ export class PdvComponent {
       });
     }
   }
-
-
 }
