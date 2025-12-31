@@ -49,7 +49,8 @@ export class AddProductComponent {
   }
 
   async onSubmit() {
-    const addProduct = await this.productService.addProduct({ id: null, descricao: this.description!.value, codigo: this.code!.value, precoUnitario: this.price!.value, imagePath: this.imagePath?.value });
+    const formatedPrice = this.price!.value.replace(',', '.');
+    const addProduct = await this.productService.addProduct({ id: null, descricao: this.description!.value, codigo: this.code!.value, precoUnitario: formatedPrice, imagePath: this.imagePath?.value });
 
     if (addProduct) {
       this.router.navigateByUrl('produtos');

@@ -4,10 +4,11 @@ import { FormComponent } from '../../../layout/form/form.component';
 import { FormGroup, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductService } from '../../../services/product.service';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-single-product',
-  imports: [FormComponent, ReactiveFormsModule],
+  imports: [FormComponent, ReactiveFormsModule, DecimalPipe],
   templateUrl: './single-product.component.html',
   styleUrl: './single-product.component.css'
 })

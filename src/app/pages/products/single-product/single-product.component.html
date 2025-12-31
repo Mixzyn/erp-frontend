@@ -11,7 +11,7 @@
 
     <div class="form-outline mb-4">
         <label class="form-label" for="price">Preço</label>
-        <input type="text" name="price" class="form-control" formControlName="price" [placeholder]="product().precoUnitario"/>
+        <input type="text" name="price" class="form-control" formControlName="price" [placeholder]="product().precoUnitario | number:'1.2-2':'pt-BR'"/>
     </div>
 
     <div class="form-outline mb-4">
