@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { lastValueFrom, Observable } from 'rxjs';
+import { lastValueFrom, map, Observable } from 'rxjs';
 import { Product } from '../models/product';
 
 @Injectable({
@@ -16,9 +16,9 @@ export class ProductService {
       const formData = new FormData();
 
       formData.append('imagePath', product.imagePath);
-      formData.append('descricao', product.descricao);
-      formData.append('codigo', product.codigo);
-      formData.append('precoUnitario', product.precoUnitario.toString().replace(',', '.'));
+      formData.append('descricao', product.description);
+      formData.append('codigo', product.code);
+      formData.append('precoUnitario', product.unitPrice.toString().replace(',', '.'));
 
       try {
         await lastValueFrom(
@@ -30,9 +30,16 @@ export class ProductService {
       }
     }
 
+    const body = {
+      id: product.id,
+      descricao: product.description,
+      codigo: product.code,
+      precoUnitario: product.unitPrice
+    }
+
     try {
       await lastValueFrom(
-        this.http.post(this.apiUrl + this.endpoint, JSON.stringify(product))
+        this.http.post(this.apiUrl + this.endpoint, body)
       );
       return true;
     } catch {
@@ -46,15 +53,16 @@ export class ProductService {
 
       formData.append('imagePath', product.imagePath);
 
-      if (product.descricao) {
-        formData.append('descricao', product.descricao);
-      }
-      if (product.codigo) {
-        formData.append('codigo', product.codigo);
+      if (product.description) {
+        formData.append('descricao', product.description);
       }
 
-      if (product.precoUnitario) {
-        formData.append('precoUnitario', product.precoUnitario.toString().replace(',', '.'));
+      if (product.code) {
+        formData.append('codigo', product.code);
+      }
+
+      if (product.unitPrice) {
+        formData.append('precoUnitario', product.unitPrice.toString().replace(',', '.'));
       }
 
       try {
@@ -67,9 +75,16 @@ export class ProductService {
       }
     }
 
+    const body = {
+      id: product.id,
+      descricao: product.description,
+      codigo: product.code,
+      precoUnitario: product.unitPrice
+    }
+
     try {
       await lastValueFrom(
-        this.http.put(this.apiUrl + this.endpoint + '/' + product.id, JSON.stringify(product))
+        this.http.put(this.apiUrl + this.endpoint + '/' + product.id, body)
       );
       return true;
     } catch {
@@ -77,20 +92,70 @@ export class ProductService {
     }
   }
 
+  /*   getProducts(): Observable<Product[]> {
+      return this.http.get<Product[]>(this.apiUrl + this.endpoint);
+    } */
+
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl + this.endpoint);
+    return this.http.get<any[]>(this.apiUrl + this.endpoint).pipe(
+      map(products =>
+        products.map(p => {
+          return {
+            id: p.id,
+            description: p.descricao,
+            code: p.codigo,
+            unitPrice: p.precoUnitario,
+            imagePath: p.imagePath
+          } as Product;
+        })
+      )
+    );
   }
 
   getProduct(productId: string): Observable<Product> {
-    return this.http.get<Product>(this.apiUrl + this.endpoint + '/' + productId);
+    return this.http.get<any>(this.apiUrl + this.endpoint + '/' + productId).pipe(
+      map(product => {
+        return {
+          id: product.id,
+          description: product.descricao,
+          code: product.codigo,
+          unitPrice: product.precoUnitario,
+          imagePath: product.imagePath
+        } as Product;
+      }
+      )
+    );
   }
 
   getProductByCode(productCode: string): Observable<Product> {
-    return this.http.get<Product>(this.apiUrl + this.endpoint + '/codigo/' + productCode);
+    return this.http.get<any>(this.apiUrl + this.endpoint + '/codigo/' + productCode).pipe(
+      map(product => {
+        return {
+          id: product.id,
+          description: product.descricao,
+          code: product.codigo,
+          unitPrice: product.precoUnitario,
+          imagePath: product.imagePath
+        } as Product;
+      }
+      )
+    );
   }
 
   getProductsByDescription(description: string): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl + this.endpoint + '/search?descricao=' + description);
+    return this.http.get<any[]>(this.apiUrl + this.endpoint + '/search?descricao=' + description).pipe(
+      map(products =>
+        products.map(p => {
+          return {
+            id: p.id,
+            description: p.descricao,
+            code: p.codigo,
+            unitPrice: p.precoUnitario,
+            imagePath: p.imagePath
+          } as Product;
+        })
+      )
+    );
   }
 
   getProductImage(imagePath: string) {

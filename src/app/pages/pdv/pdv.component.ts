@@ -1,7 +1,6 @@
 import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
 import { ProductService } from '../../services/product.service';
-import { VendaService } from '../../services/venda.service';
-import { Venda } from '../../models/venda';
+import { SaleCreate } from '../../models/sale-create';
 import { Product } from '../../models/product';
 import { FormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap';
@@ -11,6 +10,7 @@ import { createStaticPix, hasError } from 'pix-utils';
 import { Router } from '@angular/router';
 import { WebviewWindow } from '@tauri-apps/api/webviewWindow';
 import { isTauri } from '@tauri-apps/api/core';
+import { SaleService } from '../../services/sale.service';
 
 @Component({
   selector: 'app-pdv',
@@ -20,11 +20,11 @@ import { isTauri } from '@tauri-apps/api/core';
 })
 export class PdvComponent {
   private productService = inject(ProductService);
-  private vendaService = inject(VendaService);
+  private saleService = inject(SaleService);
   private router = inject(Router);
 
   products: Product[] = [];
-  venda: Venda = { itens: [] };
+  sale: SaleCreate = { items: [] };
   searchProducts: Product[] = [];
 
   @ViewChild('inputCodigo') inputCodigo!: ElementRef<HTMLInputElement>;
@@ -34,15 +34,15 @@ export class PdvComponent {
   @ViewChild('searchProductModal') searchProductModal!: ElementRef;
   @ViewChild('deleteModal') deleteModal!: ElementRef;
 
-  codigo: string = '';
-  descricao: string = 'CAIXA ABERTO';
-  quantidade: number | null = 1;
-  valorUnitario: number = 0;
+  code: string = '';
+  description: string = 'CAIXA ABERTO';
+  quantity: number | null = 1;
+  unitPrice: number = 0;
   totalItem: number = 0;
   imagePreview: string = 'img/products/sem-imagem.jpg';
   subTotal: number = 0;
-  totalRecebido: number | null = null;
-  troco: number = 0;
+  totalReceived: number | null = null;
+  change: number = 0;
   search!: string;
   private searchTerms = new Subject<string>();
   selectedIndex: number = 0;
@@ -65,7 +65,7 @@ export class PdvComponent {
       event.preventDefault();
 
       // out modal
-      this.codigo = '';
+      this.code = '';
       this.inputCodigo.nativeElement.focus();
     }
 
@@ -73,7 +73,7 @@ export class PdvComponent {
       event.preventDefault();
 
       // out modal
-      this.quantidade = null;
+      this.quantity = null;
       this.inputQuantidade.nativeElement.focus();
     }
 
@@ -99,14 +99,14 @@ export class PdvComponent {
       }
 
       // out modal
-      if (!this.quantidade || this.quantidade < 1) {
-        this.quantidade = 1;
+      if (!this.quantity || this.quantity < 1) {
+        this.quantity = 1;
       }
 
-      this.consultItem(this.codigo);
+      this.consultItem(this.code);
 
-      if (this.totalRecebido && this.totalRecebido >= this.subTotal && this.subTotal > 0) {
-        this.troco = this.totalRecebido - this.subTotal;
+      if (this.totalReceived && this.totalReceived >= this.subTotal && this.subTotal > 0) {
+        this.change = this.totalReceived - this.subTotal;
       }
     }
 
@@ -114,12 +114,12 @@ export class PdvComponent {
       event.preventDefault();
 
       // out modal
-      if (!this.quantidade || this.quantidade < 1) {
-        this.quantidade = 1;
+      if (!this.quantity || this.quantity < 1) {
+        this.quantity = 1;
       }
 
-      if (this.codigo && this.codigo.length > 0) {
-        this.addItem(this.codigo, Number(this.quantidade));
+      if (this.code && this.code.length > 0) {
+        this.addItem(this.code, Number(this.quantity));
         this.subTotal += this.totalItem;
         this.clearInputs();
       }
@@ -142,7 +142,7 @@ export class PdvComponent {
 
       // out modal
       if (this.subTotal > 0) {
-        this.totalRecebido = null;
+        this.totalReceived = null;
         this.inputTotalRecebido.nativeElement.focus();
       }
     }
@@ -160,7 +160,7 @@ export class PdvComponent {
       event.preventDefault();
 
       // out modal
-      this.submitVenda();
+      this.submitSale();
       this.clearPdv();
     }
 
@@ -206,38 +206,38 @@ export class PdvComponent {
     }
   }
 
-  private addItem(codigo: string, quantidade: number): void {
-    this.productService.getProductByCode(codigo).subscribe({
+  private addItem(code: string, quantity: number): void {
+    this.productService.getProductByCode(code).subscribe({
       next: (product) => {
         if (product) {
           this.products.push(product);
-          this.venda.itens.push({ idProduto: product.id!, quantidade: quantidade });
+          this.sale.items.push({ productId: product.id!, quantity: quantity });
         } else {
           console.warn('Produto não encontrado');
         }
       },
       error: (err) => {
-        console.error('Erro ao buscar produto:', err);
+        console.error('Erro ao buscar product:', err);
       }
     });
   }
 
   public removeItem() {
-    const totalItem = this.products[this.selectedIndex].precoUnitario * this.venda.itens[this.selectedIndex].quantidade
+    const totalItem = this.products[this.selectedIndex].unitPrice * this.sale.items[this.selectedIndex].quantity
 
     this.products.splice(this.selectedIndex, 1);
-    this.venda.itens.splice(this.selectedIndex, 1);
+    this.sale.items.splice(this.selectedIndex, 1);
 
     this.subTotal -= totalItem;
   }
 
-  private consultItem(codigo: string): void {
-    if (codigo && codigo.length > 0) {
-      this.productService.getProductByCode(codigo).subscribe({
+  private consultItem(code: string): void {
+    if (code && code.length > 0) {
+      this.productService.getProductByCode(code).subscribe({
         next: (product) => {
-          this.descricao = product.descricao;
-          this.valorUnitario = product.precoUnitario;
-          this.totalItem = product.precoUnitario * this.quantidade!;
+          this.description = product.description;
+          this.unitPrice = product.unitPrice;
+          this.totalItem = product.unitPrice * this.quantity!;
 
           if (product.imagePath) {
             this.imagePreview = this.productService.getProductImage(product.imagePath);
@@ -248,10 +248,10 @@ export class PdvComponent {
   }
 
   private clearInputs() {
-    this.codigo = '';
-    this.descricao = 'CAIXA ABERTO';
-    this.quantidade = 1;
-    this.valorUnitario = 0;
+    this.code = '';
+    this.description = 'CAIXA ABERTO';
+    this.quantity = 1;
+    this.unitPrice = 0;
     this.totalItem = 0;
     this.imagePreview = 'img/products/sem-imagem.jpg';
   }
@@ -259,9 +259,9 @@ export class PdvComponent {
   private clearPdv() {
     this.clearInputs();
     this.products = [];
-    this.troco = 0;
+    this.change = 0;
     this.subTotal = 0;
-    this.totalRecebido = 0;
+    this.totalReceived = 0;
   }
 
   private openSearchProductModal(): void {
@@ -317,16 +317,16 @@ export class PdvComponent {
 
   private copySelectedValue(): void {
     if (this.searchProducts.length > 0) {
-      const produto = this.searchProducts[this.selectedIndex];
-      this.codigo = produto.codigo;
+      const product = this.searchProducts[this.selectedIndex];
+      this.code = product.code;
     }
   }
 
-  private async submitVenda() {
+  private async submitSale() {
     if (this.products.length === 0) return;
 
     try {
-      await this.vendaService.addVenda(this.venda);
+      await this.saleService.addSale(this.sale);
     } catch (error) {
       console.error('Erro ao salvar venda', error);
     }

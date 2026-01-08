@@ -15,6 +15,7 @@ import { SingleUserComponent } from './pages/users/single-user/single-user.compo
 import { userResolver } from './guards/user.resolver';
 import { adminGuard } from './guards/admin.guard';
 import { PixComponent } from './pages/pdv/pix/pix.component';
+import { ListSalesComponent } from './pages/sales/list-sales/list-sales.component';
 
 export const routes: Routes = [
     {
@@ -59,6 +60,10 @@ export const routes: Routes = [
                 resolve: {
                     product: productResolver,
                 },
+            },
+            {
+                path: 'vendas',
+                component: ListSalesComponent,
             },
         ]
     },

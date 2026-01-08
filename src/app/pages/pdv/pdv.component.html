@@ -3,7 +3,7 @@
         <div>
             <div class="card fs-5">
                 <div class="card-body fw-bold">
-                    <span>{{ descricao }}</span>
+                    <span>{{ description }}</span>
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
                 <span class="fw-bold"><span class="text-primary fs-5">F4</span> - Pesquisar produtos</span>
                 <span class="fw-bold"><span class="text-primary fs-5">F6</span> - Receber dinheiro </span>
                 <span class="fw-bold"><span class="text-primary fs-5">F7</span> - Gerar PIX</span>
-                <span class="fw-bold"><span class="text-primary fs-5">F8</span> - Finalizar venda</span>
+                <span class="fw-bold"><span class="text-primary fs-5">F8</span> - Finalizar sale</span>
                 <span class="fw-bold"><span class="text-primary fs-5">Delete</span> - Remover item</span>
             </div>
         </div>
@@ -47,11 +47,11 @@
                                 @for (item of products; let i = $index; track $index) {
                                 <tr [class.table-active]="i === selectedIndex">
                                     <th scope="row">{{ i + 1 }}</th>
-                                    <td>{{ item.codigo }}</td>
-                                    <td>{{ item.descricao }}</td>
-                                    <td>{{ venda.itens[i].quantidade }}</td>
-                                    <td>R$ {{ item.precoUnitario | number:'1.2-2':'pt-BR' }}</td>
-                                    <td>R$ {{ (venda.itens[i].quantidade * item.precoUnitario) | number:'1.2-2':'pt-BR' }}</td>
+                                    <td>{{ item.code }}</td>
+                                    <td>{{ item.description }}</td>
+                                    <td>{{ sale.items[i].quantity }}</td>
+                                    <td>R$ {{ item.unitPrice | number:'1.2-2':'pt-BR' }}</td>
+                                    <td>R$ {{ (sale.items[i].quantity * item.unitPrice) | number:'1.2-2':'pt-BR' }}</td>
                                 </tr>
                                 }
                             </tbody>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="card-body text-end fw-bold">
                     <div class="form-outline">
-                        <input #inputCodigo [(ngModel)]="codigo" type="text" name="codigo" class="form-control" required />
+                        <input #inputCodigo [(ngModel)]="code" type="text" name="code" class="form-control" required />
                     </div>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                     VALOR UNITÁRIO
                 </div>
                 <div class="card-body text-end fw-bold">
-                    <span>R$ {{ valorUnitario | number:'1.2-2':'pt-BR' }}</span>
+                    <span>R$ {{ unitPrice | number:'1.2-2':'pt-BR' }}</span>
                 </div>
             </div>
         </div>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="card-body text-end fw-bold">
                     <div class="form-outline">
-                        <input #inputQuantidade [(ngModel)]="quantidade" type="number" name="quantidade" class="form-control" value="1" required />
+                        <input #inputQuantidade [(ngModel)]="quantity" type="number" name="quantity" class="form-control" value="1" required />
                     </div>
                 </div>
             </div>
@@ -125,7 +125,7 @@
                 </div>
                 <div class="d-flex gap-3 card-body text-end fw-bold">
                     <span>R$ </span>
-                    <input #inputTotalRecebido [(ngModel)]="totalRecebido" type="number" name="totalRecebido" class="form-control" />
+                    <input #inputTotalRecebido [(ngModel)]="totalReceived" type="number" name="totalReceived" class="form-control" />
                 </div>
             </div>
         </div>
@@ -135,7 +135,7 @@
                     TROCO
                 </div>
                 <div class="card-body text-end fw-bold">
-                    <span>R$ {{ troco | number:'1.2-2':'pt-BR' }}</span>
+                    <span>R$ {{ change | number:'1.2-2':'pt-BR' }}</span>
                 </div>
             </div>
         </div>
@@ -175,9 +175,9 @@
                             @for (product of searchProducts; let i = $index; track product.id) {
                             <tr [class.table-active]="i === selectedIndex">
                                 <th scope="row">{{ product.id }}</th>
-                                <td>{{ product.descricao }}</td>
-                                <td>{{ product.codigo }}</td>
-                                <td>R$ {{ product.precoUnitario | number:'1.2-2':'pt-BR' }}</td>
+                                <td>{{ product.description }}</td>
+                                <td>{{ product.code }}</td>
+                                <td>R$ {{ product.unitPrice | number:'1.2-2':'pt-BR' }}</td>
                             </tr>
                             }
                         </tbody>

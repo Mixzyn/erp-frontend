@@ -1,7 +1,7 @@
 import { Component, inject, input } from '@angular/core';
 import { Product } from '../../../models/product';
 import { FormComponent } from '../../../layout/form/form.component';
-import { FormGroup, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductService } from '../../../services/product.service';
 import { DecimalPipe } from '@angular/common';
@@ -65,7 +65,7 @@ export class SingleProductComponent {
 
 
   async onSubmit() {
-    const editProduct = await this.productService.editProduct({ id: this.product().id, descricao: this.description?.value, codigo: this.code?.value, precoUnitario: this.price?.value, imagePath: this.imagePath?.value });
+    const editProduct = await this.productService.editProduct({ id: this.product().id, description: this.description?.value, code: this.code?.value, unitPrice: this.price?.value, imagePath: this.imagePath?.value });
 
     if (editProduct) {
       this.router.navigateByUrl('produtos');

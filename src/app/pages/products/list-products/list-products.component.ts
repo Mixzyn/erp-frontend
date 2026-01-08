@@ -1,15 +1,14 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Product } from '../../../models/product';
 import { ProductService } from '../../../services/product.service';
 import { RouterLink } from '@angular/router';
-import { debounceTime, delay, distinctUntilChanged, Subject, switchMap } from 'rxjs';
-import { FormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { DecimalPipe } from '@angular/common';
 import { ListComponent } from '../../../layout/list/list.component';
 
 @Component({
   selector: 'app-list-products',
-  imports: [RouterLink, FormsModule, DecimalPipe, ListComponent],
+  imports: [RouterLink, DecimalPipe, ListComponent],
   templateUrl: './list-products.component.html',
   styleUrl: './list-products.component.css'
 })
@@ -30,7 +29,7 @@ export class ListProductsComponent {
       .subscribe(produtos => this.products = produtos);
   }
 
-  deleteProduct() {
+  deleteProduct(): void {
     this.productService.deleteProduct(this.currentProductId!).subscribe({
       next: () => {
         this.clearTable();
@@ -40,15 +39,15 @@ export class ListProductsComponent {
     });
   }
 
-  pressDeleteIcon(productId: number) {
+  pressDeleteIcon(productId: number): void {
     this.currentProductId = productId;
   }
 
-  private clearTable() {
+  private clearTable(): void {
     this.products = [];
   }
 
-  private getProducts() {
+  private getProducts():void {
     this.productService.getProducts().subscribe(products => this.products = products);
   }
 
