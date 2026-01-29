@@ -1,5 +1,5 @@
-import { ItemVenda } from './item-sale';
+import { SaleItemCreate } from './sale-item-create';
 
 export interface SaleCreate {
-    items: ItemVenda[];
+    items: SaleItemCreate[];
 }

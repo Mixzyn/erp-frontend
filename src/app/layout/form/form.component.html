@@ -1,14 +1,14 @@
 <div class="bg-light h-100">
     <div class="container py-5">
-        <button type="submit" class="btn btn-secondary mb-3" [routerLink]="listUrl()">Voltar</button>
+        <button type="button" class="btn btn-secondary mb-3" [routerLink]="listUrl()">Voltar</button>
         <div class="card border-0 shadow mx-auto">
             <div class="card-header px-md-4 py-3 bg-primary text-white">
-                <h1 class="cart-title h4 mb-0">{{ title() }}</h1>
+                <h1 class="cart-title fs-4 mb-0">{{ title() }}</h1>
             </div>
             <div class="card-body py-4 px-md-4">
                 <div class="row">
                     <div class="col">
-                        <img src="{{ imgSrc() }}" alt="{{ imgAlt() }}" class="img-fluid">
+                        <img [src]="imgSrc()" [alt]="imgAlt()" class="img-fluid">
                     </div>
                     <div class="col">
                         <form (ngSubmit)="emitSubmit()" class="d-flex flex-column">

@@ -15,8 +15,9 @@ import { DecimalPipe } from '@angular/common';
 export class SingleProductComponent {
   private router = inject(Router);
   private productService = inject(ProductService);
-
+  
   product = input.required<Product>();
+
   editProductForm!: FormGroup;
   imagePreview: string = 'img/products/sem-imagem.jpg';
   editProductFailed: boolean = false;

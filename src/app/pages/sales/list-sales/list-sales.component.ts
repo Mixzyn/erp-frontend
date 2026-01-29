@@ -14,6 +14,7 @@ import { SaleService } from '../../../services/sale.service';
 export class ListSalesComponent {
   private saleService = inject(SaleService);
   sales: SaleSummary[] = [];
+  currentSaleId?: number;
 
   constructor() {
     this.getSales();
@@ -24,14 +25,23 @@ export class ListSalesComponent {
   }
 
   deleteSale(): void {
-    console.log('hm');
+    this.saleService.deleteSale(this.currentSaleId!).subscribe({
+      next: () => {
+        this.clearTable();
+        this.getSales();
+      },
+      error: (err) => console.error('Erro ao deletar venda:', err)
+    });
   }
-  
+
+  private clearTable(): void {
+    this.sales = [];
+  }
+
   onSearch(valor: string): void {
-    console.log('hm');
   }
 
   pressDeleteIcon(saleId: number): void {
-    console.log('hm');
+    this.currentSaleId = saleId;
   }
 }

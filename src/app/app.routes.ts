@@ -16,6 +16,8 @@ import { userResolver } from './guards/user.resolver';
 import { adminGuard } from './guards/admin.guard';
 import { PixComponent } from './pages/pdv/pix/pix.component';
 import { ListSalesComponent } from './pages/sales/list-sales/list-sales.component';
+import { SingleSaleComponent } from './pages/sales/single-sale/single-sale.component';
+import { saleResolver } from './guards/sale.resolver';
 
 export const routes: Routes = [
     {
@@ -64,6 +66,13 @@ export const routes: Routes = [
             {
                 path: 'vendas',
                 component: ListSalesComponent,
+            },
+            {
+                path: 'venda/:id',
+                component: SingleSaleComponent,
+                resolve: {
+                    sale: saleResolver,
+                },
             },
         ]
     },
